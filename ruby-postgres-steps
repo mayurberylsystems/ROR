@@ -1,0 +1,45 @@
+INSTALLING RAILS
+
+sudo apt-get install curl
+\curl -L https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm use ruby --default
+rvm rubygems current
+gem install rails
+
+
+sudo apt-install postgresql 				---->>> for psql installation
+sudo apt-get install ruby-dev				---->>> for ruby installation
+sudo gem install pg					---->>> installing ruby pg module
+sudo -u postgres createuser mayur 			---->>> creates user mayur
+ALTER USER mayur WITH password 'Mayur'			---->>> creates password
+sudo -u postgres createdb testdb --owner mayur		---->>> creates a testdb database
+
+
+Error for insufficient privilage in ror
+
+--go to etc/postgresql/9.5/main/pg_hba.config
+change all peer to md5 and save the changes.
+
+--after generating the model go to config/database.yml
+uncomment username password and local host and port and fill in the details and save them
+
+--then check local host by rails s command.
+
+--give command rake db:create and then rake db:migrate.
+
+
+
+
+
+<p>
+    <b>Gender</b><br />
+    <%= f.radio_button :Gender, 'Male' %> Male<br />
+    <%= f.radio_button :Gender, 'Female' %> Female<br />
+    <%= f.radio_button :Gender, 'Others'  %> Others<br />
+</p>
+
+	<%= f.label :password %><br>
+	<%= password_field "forms","name" %>
+
+
