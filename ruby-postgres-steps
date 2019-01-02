@@ -32,14 +32,4 @@ uncomment username password and local host and port and fill in the details and 
 
 
 
-<p>
-    <b>Gender</b><br />
-    <%= f.radio_button :Gender, 'Male' %> Male<br />
-    <%= f.radio_button :Gender, 'Female' %> Female<br />
-    <%= f.radio_button :Gender, 'Others'  %> Others<br />
-</p>
-
-	<%= f.label :password %><br>
-	<%= password_field "forms","name" %>
-
 
