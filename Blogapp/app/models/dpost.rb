@@ -1,0 +1,2 @@
+class Dpost < ApplicationRecord
+end

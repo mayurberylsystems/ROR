@@ -1,0 +1,2 @@
+module DpostsHelper
+end
