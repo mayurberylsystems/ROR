@@ -1,0 +1,21 @@
+<h1>Patient details form</h1> 
+
+<%= form_for :patient, url: patients_path do |f| %>
+
+<p>
+<%= f.label :name %><br>
+<%= f.text_field :name %>
+</p>
+<p>
+<%= f.label :age %><br>
+<%= f.text_field :age %>
+</p>
+</p>
+<%= f.label :address %><br>
+<%= f.text_field :address %>
+</p>
+<p>
+<%= f.submit "submit"%>
+</p>
+<%= link_to 'Patients\' List', patients_path%>
+<% end %>

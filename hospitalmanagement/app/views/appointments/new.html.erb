@@ -1,0 +1,17 @@
+<h1>Appointments <h1>
+
+<%= form_for :patient, url: patients_path do |f| %>
+
+<p>
+<%= f.label :doctor_Id %><br>
+<%= f.text_field :doctor_id %>
+</p>
+<p>
+<%= f.label :patient_id %><br>
+<%= f.text_field :patient_id %>
+</p>
+<p>
+<%= f.submit "Fix appointment"%>
+</p>
+<%= link_to 'Appointments\' List', appointments_path %>
+<% end %>

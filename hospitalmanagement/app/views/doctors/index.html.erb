@@ -1,0 +1,27 @@
+<h1>welcome</h1>
+<h1>Listing all the doctors</h1>
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Age</th>
+		<th>Address</th>
+	</tr>
+	<% @doctor.each do |doctor| %>
+	<tr>
+		<td>
+			<%=doctor.name%>
+		</td>
+		<td>
+			<%=doctor.age%>
+		</td>
+		<td>
+			<%=doctor.address%>
+		</td>
+	</tr>
+	<%end%>
+</table>
+<%= link_to "Create record", new_doctor_path %>
+
+<%= link_to "sign up", new_doctorprofile_registration_path %>
+<%= link_to "sign in", new_doctorprofile_registration_path %>
