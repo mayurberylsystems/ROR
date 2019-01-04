@@ -1,6 +1,6 @@
 <h1>Doctor details form</h1> 
 
-<%= form_for :docotr, url: doctor_path do |f| %>
+<%= form_for :doctor, url: doctor_path do |f| %>
 
 <p>
 <%= f.label :name %><br>
@@ -14,6 +14,7 @@
 <%= f.label :contact %><br>
 <%= f.text_field :contact %>
 </p>
+<%end%>
 <p>
 <%= f.submit "submit"%>
 </p>
