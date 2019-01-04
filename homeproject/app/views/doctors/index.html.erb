@@ -1,0 +1,24 @@
+<h1>Listing all the Doctors</h1>
+
+<table>
+  <tr>
+    <th>|Name</th>
+    <th>|Age</th>
+    <th>|Contact|</th>
+  </tr>
+  <% @doctor.each do |doctor| %>
+  <tr>
+    <td>|
+      <%=doctor.name%>
+    |</td>
+    <td>
+      <%=doctor.age%>
+    |</td>
+    <td>
+      <%=doctor.contact%>
+    </td>
+    <td>|<%= link_to 'Show', doctor_path(doctor)%></td>
+  </tr>
+  <%end%>
+</table>
+<%= link_to "Create record", new_doctor_path %>

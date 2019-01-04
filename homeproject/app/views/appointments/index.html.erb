@@ -1,0 +1,19 @@
+<h4>Listing all the patients with their respective appointments with doctors</h4>
+
+<table>
+	<tr>
+		<th>Doctor Id</th>
+		<th>patient Id</th>
+	</tr>
+	<% @appointment.each do |app| %>
+	<tr>
+		<td>
+			<%=app.doctor_id%>
+		</td>
+		<td>
+			<%=app.patient_id%>
+		</td>
+</tr>
+	<%end%>
+</table>
+<%= link_to "Create record", new_appointment_path %>
