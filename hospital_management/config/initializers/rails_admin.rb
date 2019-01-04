@@ -1,9 +1,10 @@
 RailsAdmin.config do |config|
-#    config.authorize_with do
-#     redirect_to new_user_session_path unless current_user.is_admin?
-#   end
-#    config.authorize_with :devise
-# end
+  config.parent_controller = "::ApplicationController"
+   config.authorize_with do
+    redirect_to new_user_session_path unless current_user.is_admin?
+  end
+   config.authorize_with :devise
+
 
   ### Popular gems integration
 
