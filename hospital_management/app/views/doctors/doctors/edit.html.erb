@@ -1,0 +1,17 @@
+<%= form_for @patientslist do |f| %>
+<p>
+<%= f.label :name %>
+<%= f.text_field :name %>
+</p>
+<p>
+<%= f.label :age %>
+<%= f.text_field :age %>
+</p>
+</p>
+<%= f.label :address %>
+<%= f.text_area :address %>
+</p>
+<p>
+<%= f.submit "submit"%>
+</p>
+<% end %>

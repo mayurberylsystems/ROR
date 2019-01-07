@@ -1,0 +1,22 @@
+<h4>Patients for a Logged in doctor</h4>
+
+<table>
+	<tr>
+		<th>NAME</th>
+		<th>AGE</th>
+		<th>ADDRESS</th>
+	</tr>
+	<% @patientslist.each do |p| %>
+	<tr>
+		<td>
+			<%=p.name%>
+		</td>
+		<td>
+			<%=p.age%>
+		</td>
+		<td>
+			<%=p.address%>
+		</td>
+</tr>
+	<%end%>
+</table>

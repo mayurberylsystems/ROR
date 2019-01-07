@@ -1,2 +1,22 @@
-<h1>Doctors::Patients#index</h1>
-<p>Find me in app/views/doctors/patients/index.html.erb</p>
+<h1>Listing all the Patients</h1>
+
+<table>
+  <tr>
+    <th>|Name</th>
+    <th>|Age</th>
+    <th>|Address|</th>
+  </tr>
+  <% @patient.each do |patient| %>
+  <tr>
+    <td>|
+      <%=patient.name%>
+    |</td>
+    <td>
+      <%=patient.age%>
+    |</td>
+    <td>
+      <%=patient.address%>
+    </td>
+  <%end%>
+</table>
+<%= link_to "Create record", new_doctors_patient_path %>

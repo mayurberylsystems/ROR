@@ -1,2 +1,22 @@
-<h1>Doctors::Appointments#index</h1>
-<p>Find me in app/views/doctors/appointments/index.html.erb</p>
+<h4>Appointment List via ID number</h4>
+
+<table>
+	<tr>
+		<th>Doctor Id</th>
+		<th>Patient Id</th>
+		<th>Appointment Date</th>
+	</tr>
+	<% @appointment.each do |app| %>
+	<tr>
+		<td>
+			<%=app.doctor_id%>
+		</td>
+		<td>
+			<%=app.patient_id%>
+		</td>
+		<td>
+			<%=app.appoint_date%>
+		</td>
+</tr>
+	<%end%>
+</table>
