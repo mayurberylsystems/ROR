@@ -3,3 +3,13 @@ Devise
 install devise and then configure it
 add the fields in the schema and also add those field in the views/devise/registrations/new.html.erb
 and add the permit sanitizer method to the aplication controller in the apps folder.
+
+Creating single admin login for an application.
+
+go to admin_rails.rb and paste
+   config.authorize_with do
+    authenticate_or_request_with_http_basic('Hello Admin') do |username, password|
+      username == 'mayur.saxena@berylsystem.com' && password == 'Mayur@11'
+    end
+  end 
+inside RailAdmin config loop 

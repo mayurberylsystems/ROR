@@ -1,7 +1,7 @@
 RailsAdmin.config do |config|
   config.authorize_with do
-    authenticate_or_request_with_http_basic('Site Message') do |username, password|
-      username == 'mayur.berylsystem' && password == 'Mayur@123'
+    authenticate_or_request_with_http_basic('Hello Admin') do |username, password|
+      username == 'mayur.saxena@berylsystem.com' && password == 'Mayur@11'
     end
   end
 
