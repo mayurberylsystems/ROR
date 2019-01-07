@@ -4,20 +4,23 @@ class Doctors::PatientsController < Doctors::MainController
 	end
 	
 	def new
-    end
+  end
 
-    def create
-    	@patient=Patient.new(patient_params)
-    	@patient.save
-    	redirect_to doctors_patients_path 
-    end
+  def create
+    @patient=Patient.new(patient_params)
+  	@patient.save
+  	redirect_to doctors_patients_path 
+  end
 
-    def show
-    	@patient=Patient.find(params[:id])
-    end
+  def show
+   	@patient=Patient.find(params[:id])
+  end
 
+  
   private
+  
   def patient_params
   	params.require(:patient).permit(:name,:age,:address)
   end
+
 end
