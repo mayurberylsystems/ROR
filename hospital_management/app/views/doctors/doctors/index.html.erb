@@ -6,7 +6,7 @@
 		<th>AGE</th>
 		<th>ADDRESS</th>
 	</tr>
-	<% @patientslist.each do |p| %>
+	<% @doctor.each do |p| %>
 	<tr>
 		<td>
 			<%=p.name%>
@@ -16,6 +16,12 @@
 		</td>
 		<td>
 			<%=p.address%>
+		</td>
+		<td>
+			<%= link_to 'Edit', edit_doctors_doctor_path(@doctor)%>
+		</td>
+		<td>
+			<%= link_to 'Delete', doctors_doctor_path(@doctor), method: :delete, data: {confirm: 'ARE YOU SURE??'}%>
 		</td>
 	</tr>
 	<%end%>

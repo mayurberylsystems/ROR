@@ -15,9 +15,6 @@ Rails.application.routes.draw do
     root 'doctors/doctors#index', as: :authenticated_root
   end
 
-  post "/register" => "doctors/doctors#sign_up"
-
-  
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

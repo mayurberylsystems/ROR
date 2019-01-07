@@ -1,0 +1,5 @@
+Devise 
+
+install devise and then configure it
+add the fields in the schema and also add those field in the views/devise/registrations/new.html.erb
+and add the permit sanitizer method to the aplication controller in the apps folder.

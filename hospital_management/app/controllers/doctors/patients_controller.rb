@@ -1,4 +1,4 @@
-class Doctors::PatientsController < Doctors::MainController
+class Doctors::PatientsController < ActionController::Base
 	def index
 		@patient=Patient.all
 	end

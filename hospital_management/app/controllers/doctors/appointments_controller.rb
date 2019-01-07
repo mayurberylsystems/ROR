@@ -18,9 +18,4 @@ class Doctors::AppointmentsController < Doctors::MainController
     params.require(:appointment).permit(:name,:age,:address)
   end
 
-
-
-
-
-
 end

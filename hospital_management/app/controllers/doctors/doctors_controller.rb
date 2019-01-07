@@ -1,33 +1,35 @@
 class Doctors::DoctorsController < ApplicationController
 
   def index
-    doctor=current_doctor
-    @patientslist = doctor.patients
+    d=current_doctor
+    @doctor = d.patients
   end
   
   def after_sign_in_path(resource)
     doctors_doctors_path
   end
 
-  def sign_up
-    debugger
-  end
-
-
   def edit
-    doctor=current_doctor
-    @patientslist = doctor.patients.find(params[:id])
+    d=current_doctor
+    @doctor = d.patients.find(params[:id])
   end
 
   def update
-    doctor=current_doctor
-    @patientslist = doctor.patients.find(params[:id])
-    if @patientslist.update(doctor_params)
-      redirect_to @patientslist
+    d=current_doctor
+    @doctor = d.patients.find(params[:id])
+    if @doctor.update(doctor_params)
+      redirect_to @doctor
     else
       render 'edit'
     end
   end
+
+  def destroy
+    d=current_doctor
+    @doctor = d.patients.find(params[:id])
+    @doctor.destroy
+    redirect_to doctors_doctors_path
+ end
 
     private
     
