@@ -1,18 +1,18 @@
 <h1>Patient details form<h1>
 <%= form_for :patient, url: doctors_patients_path do |f| %>
-<p>
-<%= f.label :name %>
-<%= f.text_field :name %>
-</p>
-<p>
-<%= f.label :age %>
-<%= f.text_field :age %>
-</p>
-</p>
-<%= f.label :address %>
-<%= f.text_area :address %>
-</p>
-<p>
-<%= f.submit "submit"%>
-</p>
+	<p>
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	</p>
+	<p>
+		<%= f.label :age %>
+		<%= f.text_field :age %>
+	</p>
+	</p>
+		<%= f.label :address %>
+		<%= f.text_area :address %>
+	</p>
+	<p>
+		<%= f.submit "submit"%>
+	</p>
 <% end %>

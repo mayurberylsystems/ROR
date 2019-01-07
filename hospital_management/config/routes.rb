@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     root 'doctors/doctors#index', as: :authenticated_root
   end
 
+  post "/register" => "doctors/doctors#sign_up"
 
   
   root 'home#index'
