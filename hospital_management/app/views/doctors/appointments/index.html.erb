@@ -1,22 +1,26 @@
-<h4>Appointment List via ID number</h4>
+<h4>Appointment List </h4>
 
 <table>
 	<tr>
-		<th>Doctor Id</th>
-		<th>Patient Id</th>
-		<th>Appointment Date</th>
+		<th>Patient Name</th>
+		<th>Appointment Time</th>
 	</tr>
-	<% @appointment.each do |app| %>
-	<tr>
-		<td>
-			<%=app.doctor_id%>
-		</td>
-		<td>
-			<%=app.patient_id%>
-		</td>
-		<td>
-			<%=app.appoint_date%>
-		</td>
-</tr>
-	<%end%>
+	<% @appointments.each do |app| %>
+		<tr>
+			<td>
+				<%= app.patient.name %>
+			</td>
+			<td>
+				<%= app.appoint_date.strftime("%d %b, %Y %H:%M %p") %>
+			</td>
+			<td>
+			<%= link_to 'Edit', "/doctors/appointments/#{app.id}/edit" %>
+			</td>
+			<td>
+			<%= link_to 'Delete', "/doctors/appointments/#{app.id}", method: :delete, data: {confirm: 'ARE YOU SURE??'}%>
+			</td>
+		</tr>	
+	<% end %>
 </table>
+
+<%= link_to 'Add Appointment', new_doctors_appointment_path %>

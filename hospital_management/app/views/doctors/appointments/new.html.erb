@@ -2,18 +2,18 @@
 
 <%= form_for :appointment, url: doctors_appointments_path do |f| %>
 	<p>
-		<%= f.label :doctor_id %><br>
-    	<%= f.text_field :doctor_id %>
+		<%= f.hidden_field :doctor_id , :value => current_doctor.id %>
 	</p>
 	<p>
-		<%= f.label :patient_id %><br>
-		<%= f.text_field :patient_id %>
+		<%= f.label :Patient %>
+		<%= select("appointment", "patient_id", Patient.all.collect {|p| [ p.name, p.id ] },{ include_blank: true }) %>
 	</p>
 	<p>
-		<%= f.label :appoint_date %><br>
-		<%= f.text_field :appoint_date %>
-	</p>
+		<%= datetime_select("appointment","appoint_date")%>
 	<p>
-		<%= f.submit "Fix appointment"%>
+		<%= f.submit "save" %>
 	</p>
 <%end%>
+
+
+	

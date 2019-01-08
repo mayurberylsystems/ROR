@@ -2,28 +2,22 @@
 
 <table>
 	<tr>
-		<th>NAME</th>
-		<th>AGE</th>
-		<th>ADDRESS</th>
+		<th> NAME </th>
+		<th> AGE </th>
+		<th> ADDRESS </th>
 	</tr>
-	<% @doctor.each do |p| %>
+	<% @patients.each do |p| %>
 	<tr>
 		<td>
-			<%=p.name%>
+			<% = p.name%>
 		</td>
 		<td>
-			<%=p.age%>
+			<% = p.age%>
 		</td>
 		<td>
-			<%=p.address%>
-		</td>
-		<td>
-			<%= link_to 'Edit', edit_doctors_doctor_path(@doctor)%>
-		</td>
-		<td>
-			<%= link_to 'Delete', doctors_doctor_path(@doctor), method: :delete, data: {confirm: 'ARE YOU SURE??'}%>
+			<% = p.address%>
 		</td>
 	</tr>
-	<%end%>
+	<% end %>
 </table>
 

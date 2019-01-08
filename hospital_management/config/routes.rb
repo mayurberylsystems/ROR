@@ -12,8 +12,10 @@ Rails.application.routes.draw do
   devise_for :doctors
 
   authenticated :doctor do
-    root 'doctors/doctors#index', as: :authenticated_root
+    root 'doctors/appointments#index', as: :authenticated_root
+    resources :appointments , only: [:index, :show, :new, :create, :edit, :update]
   end
+
 
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -1,19 +1,19 @@
 class Doctors::PatientsController < ActionController::Base
 	def index
-		@patient=Patient.all
+		@patient = Patient.all
 	end
 	
 	def new
   end
 
   def create
-    @patient=Patient.new(patient_params)
+    @patient = Patient.new(patient_params)
   	@patient.save
   	redirect_to doctors_patients_path 
   end
 
   def show
-   	@patient=Patient.find(params[:id])
+   	@patient = Patient.find(params[:id])
   end
 
   

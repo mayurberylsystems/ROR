@@ -1,8 +1,7 @@
 class Doctors::DoctorsController < ApplicationController
 
   def index
-    d=current_doctor
-    @doctor = d.patients
+    @patients = current_doctor.patients
   end
   
   def after_sign_in_path(resource)
@@ -10,24 +9,21 @@ class Doctors::DoctorsController < ApplicationController
   end
 
   def edit
-    d=current_doctor
-    @doctor = d.patients.find(params[:id])
+    @patient = current_doctor.patient.find(params[:id])
   end
 
   def update
-    d=current_doctor
-    @doctor = d.patients.find(params[:id])
-    if @doctor.update(doctor_params)
-      redirect_to @doctor
+    @patient = current_doctor.patient.find(params[:id])
+    if @patient.update(doctor_params)
+      redirect_to doctors_doctors_path
     else
       render 'edit'
     end
   end
 
   def destroy
-    d=current_doctor
-    @doctor = d.patients.find(params[:id])
-    @doctor.destroy
+    @patients = current_doctor.patients.find(params[:id])
+    @patients.destroy
     redirect_to doctors_doctors_path
  end
 

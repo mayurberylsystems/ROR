@@ -1,0 +1,14 @@
+<%= form_for :appointment , url: doctors_appointments_path do |f| %>
+	<p>
+		<%= f.hidden_field :doctor_id, :value => current_doctor.id %>
+	</p>
+	<p>
+		<%= f.label :Patient %><br>
+		<%= select("appointment", "patient_id", Patient.all.collect {|p| [ p.name ] },{ include_blank: true }) %>
+	</p>
+	<p>
+		<%= datetime_select("appointment","appoint_date")%>
+	<p>
+		<%= f.submit "Update" %>
+	</p>
+<%end%>
