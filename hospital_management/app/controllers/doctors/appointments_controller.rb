@@ -22,7 +22,6 @@ class Doctors::AppointmentsController < Doctors::MainController
   end
 
   def update
-    debugger
     @appointment = current_doctor.appointments.find(params[:id])
     if @appointment.update(appointment_params)
       redirect_to doctors_appointments_path
