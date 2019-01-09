@@ -1,10 +1,10 @@
-<%= form_for :appointment , url: doctors_appointments_path do |f| %>
+<%= form_for :appointment , url: "/doctors/appointments/#{@appointment.id}" , method: :put do |f| %>
 	<p>
 		<%= f.hidden_field :doctor_id, :value => current_doctor.id %>
 	</p>
 	<p>
-		<%= f.label :Patient %><br>
-		<%= select("appointment", "patient_id", Patient.all.collect {|p| [ p.name ] },{ include_blank: true }) %>
+		<%= f.label :patient_id %><br>
+		<%= f.select(:patient_id, Patient.all.collect {|p| [ p.name, p.id ] }) %>
 	</p>
 	<p>
 		<%= datetime_select("appointment","appoint_date")%>
