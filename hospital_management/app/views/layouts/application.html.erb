@@ -10,9 +10,11 @@
   </head>
 
   <body>
-    <%= link_to 'Login', new_doctor_session_path if !current_doctor %>
-    <%= link_to 'Logout', destroy_doctor_session_path, method: 'delete' if current_doctor %>
-   
+    <%= link_to 'Login ', new_doctor_session_path if !current_doctor %><br>
+    <%= link_to 'Logout', destroy_doctor_session_path, method: 'delete' if current_doctor %><br>
+    <%= link_to ' Total Patients\' list for treatment', doctors_patients_path %>
+
+
 <% if notice %>
   <p class="alert alert-success"><%= notice %></p>
 <% end %>
