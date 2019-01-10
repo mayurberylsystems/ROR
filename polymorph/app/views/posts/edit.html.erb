@@ -1,0 +1,14 @@
+<%= form_for :post, url: "/posts/#{@post.id}", method: :put do |f| %>
+	
+	<p>
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	</p>
+	<p>
+		<%= f.label :content %>
+		<%= f.text_area :content %>
+	</p>
+	<p>
+		<%= f.submit "Update" %>
+	</p>
+<% end %>

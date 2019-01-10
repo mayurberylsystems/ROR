@@ -1,0 +1,15 @@
+<h3>Add a post<h3>
+<%= form_for :post, url: posts_path do |f| %>
+	
+	<p>
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	</p>
+	<p>
+		<%= f.label :content %>
+		<%= f.text_area :content %>
+	</p>
+	<p>
+		<%= f.submit "save" %>
+	</p>
+<% end %>

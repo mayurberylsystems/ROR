@@ -1,0 +1,23 @@
+<h3> All posts </h3>
+<table>
+	<tr>
+		<th>  Post </th>
+		<th> Content </th>
+	</tr>
+	<% @posts.each do |c| %>
+		<tr>
+			<td>
+				<%= c.name %>
+			</td>
+			<td>
+				<%= c.content %>
+			</td>
+			<td>
+				<%= link_to 'Edit', "/posts/#{c.id}/edit" %>
+			</td>
+			<td>
+			<%= link_to 'Delete', "/posts/#{c.id}", method: :delete, data: {confirm: 'ARE YOU SURE??'} %>
+			</td>
+		</tr>	
+	<% end %>
+</table>

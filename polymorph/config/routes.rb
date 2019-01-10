@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   resources :comments
   resources :users
 
-  root 'events#new'
+  root 'posts#new'
 end

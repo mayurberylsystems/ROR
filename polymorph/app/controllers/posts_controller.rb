@@ -1,42 +1,42 @@
 class PostsController < ApplicationController
 	
 	def index
-		@events = Event.all
+		@posts = Post.all
 	end
 	
 	def new
 	end
 	
 	def create
-		@event = Event.new(event_params)
-		@event.save
-		redirect_to events_path
+		@post = Post.new(post_params)
+		@post.save
+		redirect_to posts_path
 	end
 	
 	def show
-		@event = Event.find(params[:id])
+		@post = Post.find(params[:id])
 	end
 	
 	def edit
-		@event = Event.find(params[:id])
+		@post = Post.find(params[:id])
 	end
 	
 	def update
-		@event = Event.find(params[:id])
-		if @event.update(event_params)
-			redirect_to events_path
+		@post = Post.find(params[:id])
+		if @post.update(post_params)
+			redirect_to posts_path
 		else 
 			render 'edit'
 		end
 	end
 
 	def destroy
-		event = Event.find(params[:id])
-		event.destroy
-		redirect_to events_path
+		post = Post.find(params[:id])
+		post.destroy
+		redirect_to posts_path
 	end
 
-	def event_params
-		params.require(:event).permit(:name,:location)
+	def post_params
+		params.require(:post).permit(:name,:location)
 	end
 end
