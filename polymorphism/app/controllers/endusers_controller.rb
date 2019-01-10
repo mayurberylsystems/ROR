@@ -1,0 +1,2 @@
+class EndusersController < ApplicationController
+end

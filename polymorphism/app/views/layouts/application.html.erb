@@ -10,6 +10,8 @@
   </head>
 
   <body>
+    <%= link_to 'Login ', new_enduser_session_path if !current_enduser %><br>
+    <%= link_to 'Logout', destroy_enduser_session_path, method: 'delete' if current_enduser %><br>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>
