@@ -1,2 +1,26 @@
-<h1>Comments#index</h1>
-<p>Find me in app/views/comments/index.html.erb</p>
+<h2>Comments by User</h2>
+
+<table>
+	<tr>
+		<th> Commentable_id </th>
+		<th> Commentable_type </th>
+		<th> Comments </th>
+		<th> Created At </th>
+	</tr>
+	<% @comments.each do |comment| %>
+	<tr>
+		<td>
+			<%= comment.commentable_id %>
+		</td>
+		<td>
+			<%= comment.commentable_type %>
+		</td>
+		<td>
+			<%= comment.yourcomments %>
+		</td>
+		<td>
+			<%= comment.created_at %>
+		</td>
+	</tr>
+	<% end %>
+</table>

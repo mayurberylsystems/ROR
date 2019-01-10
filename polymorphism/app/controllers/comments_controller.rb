@@ -1,27 +1,24 @@
-class CommentsController < MainController
+class CommentsController < ApplicationController
 	def index
-		@comments = current_signeduser.comments
+		@comments = Comment.all
 	end
 
 	def new
 	end
 
 	def create
-		@comment = current_signeduser.comments.new(comment_params)
-     	if @comment.save
-      		redirect_to comments_path
-    	else
-      		render 'new'
-      		flash[:notice] = "Didn't work"
-    	end
-	end
+		@comment = Comment.new(comment_params)
+     	@comment.save
+      	redirect_to comments_path
+    end
 
 	def show
-		@comment = current_signeduser.comments.find(params[:id])
+		@comment = Comment.find(params[:id])
 	end
+
 
 	private
 	def comment_params
-		params.require(:comment).require(:commentable_id , :commentable_type , :yourcomments)
+		params.require(:comment).permit(:commentable_id , :commentable_type , :created_at , :updated_at, :yourcomments  )
 	end
 end

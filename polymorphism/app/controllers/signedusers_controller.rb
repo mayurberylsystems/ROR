@@ -1,2 +1,0 @@
-class SignedusersController < ApplicationController
-end

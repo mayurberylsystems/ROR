@@ -1,7 +1,10 @@
 <h1>Add a new Event name<h1>
 <%= form_for :event, url: events_path do |f| %>
 	<p>
-		<%= f.label :event_name %>
-		<%= f.text_field :event_name %>
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	</p>
+	<p>
+		<%= f.submit "save"%>
 	</p>
 <% end %>

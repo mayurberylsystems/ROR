@@ -8,12 +8,8 @@ class ArticlesController < ApplicationController
 
 	def create
 		@article = Article.new(article_params)
-     	if @article.save
-      		redirect_to doctors_articles_path
-    	else
-      		render 'new'
-      		flash[:notice] = "Didn't work"
-    	end
+     	@article.save
+      	redirect_to articles_path
 	end
 
 	def show
@@ -22,6 +18,6 @@ class ArticlesController < ApplicationController
 
 	private
 	def article_params
-		params.require(:article).require(:name)
+		params.require(:article).permit(:title, :content)
 	end
 end

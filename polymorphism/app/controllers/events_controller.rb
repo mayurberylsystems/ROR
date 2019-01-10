@@ -8,12 +8,8 @@ class EventsController < ApplicationController
 
 	def create
 		@event = Event.new(event_params)
-     	if @event.save
-      		redirect_to events_path
-    	else
-      		render 'new'
-      		flash[:notice] = "Didn't work"
-    	end
+     	@event.save
+      	redirect_to events_path
 	end
 
 	def show
@@ -21,7 +17,7 @@ class EventsController < ApplicationController
 	end
 
 	private
-	def events_params
-		params.require(:event).require(:name)
+	def event_params
+		params.require(:event).permit(:name)
 	end
 end
