@@ -1,0 +1,10 @@
+<h1>Your Event Name<h1>
+<%= form_for :event, url: events_path do |f| %>
+	<p>
+		<%= f.label :event_name %>
+		<%= f.text_field :event_name %>
+	</p>
+<p>
+		<%= f.submit "submit" %>
+	</p>
+<% end %>

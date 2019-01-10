@@ -1,0 +1,13 @@
+<h4>Listing Events</h4>
+<table>
+	<tr>
+		<th> Event Name </th>
+	</tr>
+	<% @events.each do |a| %>
+	<tr>
+		<td>
+			<%= a.name%>
+		</td>
+	</tr>
+	<% end %>
+</table>

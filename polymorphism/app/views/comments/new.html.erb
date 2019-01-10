@@ -1,0 +1,18 @@
+<h1>Comments by Logged In User <h1>
+
+<%= form_for :Comment, url: comments_path do |f| %>
+	<p>
+		<%= f.label :commentable_id %>
+		<%= f.text_field :commentable_id %>
+	</p>
+	<p>
+		<%= f.label :commentable_type %>
+		<%= f.text_field :commentable_type %>
+	</p>	
+	<p>
+		<%= f.label :your_comments %>
+		<%= f.text_field :your_comments %>
+	<p>
+		<%= f.submit "save" %>
+	</p>
+<%end%>
