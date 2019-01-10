@@ -3,12 +3,12 @@ module Api
 		class PostsController < ApplicationController
 			def index
 				posts = Post.all
-				render json: posts
+				render json: {status: 'SUCCESS', message: 'Posts by Admin', data:posts}, status: :ok
 			end
 
 			def show
 				post = Post.find(params[:id])
-				render json: post
+				render json: {status: 'SUCCESS', message: 'Posts by Admin', data:post}, status: :ok
 			end
 
 			def create
