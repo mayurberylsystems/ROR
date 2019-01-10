@@ -1,0 +1,15 @@
+<h3>Add a event<h3>
+<%= form_for :event, url: events_path do |f| %>
+	
+	<p>
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	</p>
+	<p>
+		<%= f.label :location %>
+		<%= f.text_field :location %>
+	</p>
+	<p>
+		<%= f.submit "save" %>
+	</p>
+<% end %>

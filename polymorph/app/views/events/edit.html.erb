@@ -1,0 +1,14 @@
+<%= form_for :event, url: "/events/#{@event.id}", method: :put do |f| %>
+	
+	<p>
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	</p>
+	<p>
+		<%= f.label :location %>
+		<%= f.text_field :location %>
+	</p>
+	<p>
+		<%= f.submit "Update" %>
+	</p>
+<% end %>

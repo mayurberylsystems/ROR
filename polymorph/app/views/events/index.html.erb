@@ -1,0 +1,23 @@
+<h3> All Events </h3>
+<table>
+	<tr>
+		<th> Event Name </th>
+		<th> Location </th>
+	</tr>
+	<% @events.each do |c| %>
+		<tr>
+			<td>
+				<%= c.name %>
+			</td>
+			<td>
+				<%= c.location %>
+			</td>
+			<td>
+				<%= link_to 'Edit', "/events/#{c.id}/edit" %>
+			</td>
+			<td>
+			<%= link_to 'Delete', "/events/#{c.id}", method: :delete, data: {confirm: 'ARE YOU SURE??'} %>
+			</td>
+		</tr>	
+	<% end %>
+</table>
