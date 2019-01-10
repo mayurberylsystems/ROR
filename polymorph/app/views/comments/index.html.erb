@@ -1,0 +1,31 @@
+<h3> All Comments Are Here </h3>
+<table>
+	<tr>
+		<th> Comments </th>
+		<th> User Id </th>
+		<th> Category </th>
+		<th> Category No.</th>
+	</tr>
+	<% @comments.each do |c| %>
+		<tr>
+			<td>
+				<%= c.opinion %>
+			</td>
+			<td>
+				<%= c.user_id %>
+			</td>
+			<td>
+				<%= c.commentable_type %>
+			</td>
+			<td>
+				<%= c.commentable_id %>
+			</td>
+			<td>
+				<%= link_to 'Edit', "/comments/#{c.id}/edit" %>
+			</td>
+			<td>
+			<%= link_to 'Delete', "/comments/#{c.id}", method: :delete, data: {confirm: 'ARE YOU SURE??'} %>
+			</td>
+		</tr>	
+	<% end %>
+</table>

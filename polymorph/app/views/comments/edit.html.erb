@@ -1,0 +1,22 @@
+<%= form_for :comment, url: "/comments/#{@comment.id}", method: :put do |f| %>
+	
+	<p>
+		<%= f.label :opinion %>
+		<%= f.text_area :opinion %>
+	</p>
+	<p>
+		<%= f.label :user_id %>
+		<%= f.text_field :user_id %>
+	</p>
+	<p>
+		<%= f.label :commentable_id %>
+		<%= f.text_field :commentable_id %>
+	</p>
+	<p>
+		<%= f.label :commentable_type %>
+		<%= f.text_field :commentable_type %>
+	</p>
+	<p>
+		<%= f.submit "Update" %>
+	</p>
+<% end %>
