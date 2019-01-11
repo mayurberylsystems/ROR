@@ -13,10 +13,10 @@
 				<%= c.email %>
 			</td>
 			<td>
-				<%= link_to 'Edit', "/user/#{c.id}/edit" %>
+				<%= link_to 'Edit', "/users/#{c.id}/edit" %>
 			</td>
 			<td>
-			<%= link_to 'Delete', "/user/#{c.id}", method: :delete, data: {confirm: 'ARE YOU SURE??'} %>
+			<%= link_to 'Delete', "/users/#{c.id}", method: :delete, data: {confirm: 'ARE YOU SURE??'} %>
 			</td>
 		</tr>	
 	<% end %>
