@@ -1,41 +1,42 @@
 class UsersController < ApplicationController
 	
 	def index
-		@events = Event.all
+		@users = User.all
 	end
 	
 	def new
 	end
 	
 	def create
-		@event = Event.new(event_params)
-		@event.save
-		redirect_to events_path
+		@user = User.new(user_params)
+		@user.save
+		redirect_to users_path
 	end
 	
 	def show
-		@event = Event.find(params[:id])
+		@user = User.find(params[:id])
 	end
 	
 	def edit
-		@event = Event.find(params[:id])
+		@user = User.find(params[:id])
 	end
 	
 	def update
-		@event = Event.find(params[:id])
-		if @event.update(event_params)
-			redirect_to events_path
+		@user = User.find(params[:id])
+		if @user.update(user_params)
+			redirect_to users_path
 		else 
 			render 'edit'
 		end
 	end
 
 	def destroy
-		event = Event.find(params[:id])
-		event.destroy
-		redirect_to events_path
+		user = User.find(params[:id])
+		user.destroy
+		redirect_to users_path
 	end
 
-	def event_params
-		params.require(:event).permit(:name,:location)
-	endend
+	def user_params
+		params.require(:user).permit(:name,:email)
+	end
+end
