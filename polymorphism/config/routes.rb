@@ -11,8 +11,7 @@ Rails.application.routes.draw do
 	devise_for :endusers
 
 	authenticated :endusers do
+		resources :events
     root 'events#index', as: :authenticated_root
-    resources :events , only: [:index, :show, :new, :create, :edit, :update]
-    resources :articles, only: [:index, :show, :new, :create, :edit, :update]
   end
 end
