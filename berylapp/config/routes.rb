@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  get 'home/productsync'
   resources :homes
   root :to => 'home#index'
   mount ShopifyApp::Engine, at: '/'
