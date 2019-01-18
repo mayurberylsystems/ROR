@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  get 'home/productsync'
   resources :homes
   root :to => 'home#index'
+  get 'home/productsync'
   mount ShopifyApp::Engine, at: '/'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
