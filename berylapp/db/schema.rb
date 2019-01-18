@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190118054135) do
+ActiveRecord::Schema.define(version: 20190118082142) do
 
   create_table "abcs", force: :cascade do |t|
     t.string   "title"
@@ -55,12 +55,8 @@ ActiveRecord::Schema.define(version: 20190118054135) do
   add_index "product_shops", ["product_id"], name: "index_product_shops_on_product_id"
   add_index "product_shops", ["shop_id"], name: "index_product_shops_on_shop_id"
 
-  create_table "products", force: :cascade do |t|
-    t.string   "title"
-    t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
+# Could not dump table "products" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "shops", force: :cascade do |t|
     t.string   "shopify_domain", null: false
@@ -70,6 +66,15 @@ ActiveRecord::Schema.define(version: 20190118054135) do
   end
 
   add_index "shops", ["shopify_domain"], name: "index_shops_on_shopify_domain", unique: true
+
+  create_table "storeproducts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "price"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "productimage"
+  end
 
   create_table "tests", force: :cascade do |t|
     t.string   "title"
