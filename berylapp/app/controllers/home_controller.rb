@@ -2,7 +2,8 @@ class HomeController < ShopifyApp::AuthenticatedController
   def index
     @products = ShopifyAPI::Product.find(:all, params: { limit: 10 })
     @products.each do |x|
-      @details = Storeproduct.create(title: x.title, description: x.body_html, productimage: x.images.first)
+      product = Product.create(title: x.title, description: x.body_html, price: x.variants.first.price)
+      image = Productimg.create(product_id: product.id, image: x.images.first)
     end
   end
 
@@ -11,3 +12,8 @@ class HomeController < ShopifyApp::AuthenticatedController
   end
 
 end
+
+
+
+
+# http://railscasts.com/episodes/253-carrierwave-file-uploads
