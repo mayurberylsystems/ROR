@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190119091402) do
+ActiveRecord::Schema.define(version: 20190119115540) do
 
   create_table "pictures", force: :cascade do |t|
     t.integer  "product_id"
@@ -34,6 +34,26 @@ ActiveRecord::Schema.define(version: 20190119091402) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "productshopifies", force: :cascade do |t|
+    t.integer  "shop_id"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "price"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "productshopifies", ["shop_id"], name: "index_productshopifies_on_shop_id"
+
+  create_table "productsimages", force: :cascade do |t|
+    t.integer  "productshopify_id"
+    t.string   "image"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "productsimages", ["productshopify_id"], name: "index_productsimages_on_productshopify_id"
 
   create_table "shopifyproducts", force: :cascade do |t|
     t.string   "title"
