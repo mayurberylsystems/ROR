@@ -1,9 +1,10 @@
 class HomeController < ShopifyApp::AuthenticatedController
+  
   def index
     @products = ShopifyAPI::Product.find(:all, params: { limit: 10 })
     @products.each do |x|
       product = Shopifyproduct.create(title: x.title, description: x.body_html, price: x.variants.first.price)
-      image = Picture.create(remote_correspondingimage_url: x.images.first.src)
+      image = Picture.create(product_id: product.id, remote_correspondingimage_url: x.images.first.src)
     end
   end
 
