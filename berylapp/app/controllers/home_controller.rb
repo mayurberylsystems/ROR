@@ -3,10 +3,8 @@ class HomeController < ShopifyApp::AuthenticatedController
   def index
     @products = ShopifyAPI::Product.find(:all, params: { limit: 10 })
     @products.each do |x|
-       product = Productshopify.create(shop_id: shop.first.id, title: x.title, description: x.body_html, price: x.variants.first.price)
-       image = Productimg.create(product_id: product.id, image: x.images.first.src)
-
-
+       product = Shopproduct.create(shop_id: 1, title: x.title, description: x.body_html, price: x.variants.first.price)
+       # image = Productsimage.create(productshopify_id: productshopify.id, image: x.images.first.src)
     end
   end
 

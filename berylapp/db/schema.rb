@@ -11,28 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190119115540) do
+ActiveRecord::Schema.define(version: 20190120014742) do
 
   create_table "pictures", force: :cascade do |t|
     t.integer  "product_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.string   "correspondingimage"
-  end
-
-  create_table "productimgs", force: :cascade do |t|
-    t.string   "product_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "image"
-  end
-
-  create_table "products", force: :cascade do |t|
-    t.string   "title"
-    t.text     "description"
-    t.integer  "price"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
   end
 
   create_table "productshopifies", force: :cascade do |t|
@@ -62,6 +47,26 @@ ActiveRecord::Schema.define(version: 20190119115540) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "shopproductimages", force: :cascade do |t|
+    t.integer  "shopproduct_id"
+    t.string   "image"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "shopproductimages", ["shopproduct_id"], name: "index_shopproductimages_on_shopproduct_id"
+
+  create_table "shopproducts", force: :cascade do |t|
+    t.integer  "shop_id"
+    t.string   "title"
+    t.text     "description"
+    t.string   "price"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "shopproducts", ["shop_id"], name: "index_shopproducts_on_shop_id"
 
   create_table "shops", force: :cascade do |t|
     t.string   "shopify_domain", null: false
