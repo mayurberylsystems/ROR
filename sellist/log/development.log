@@ -1,0 +1,2774 @@
+  [1m[35m (130.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (102.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7856604754602880815)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to DeviseCreateUsers (20171012180748)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (90.8ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "first_name" character varying, "last_name" character varying, "address" character varying, "suit" character varying, "city" character varying, "state" character varying, "postal_code" character varying, "country" character varying, "account_type" character varying, "is_admin" boolean DEFAULT 'f', "active" boolean DEFAULT 'f', "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" inet, "last_sign_in_ip" inet, "confirmation_token" character varying, "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (41.7ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_email" ON "users"  ("email")[0m
+  [1m[35m (46.5ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")[0m
+  [1m[35m (38.3ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_confirmation_token" ON "users"  ("confirmation_token")[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171012180748"]]
+  [1m[35m (20.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateSellerDetails (20171012181059)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (77.6ms)[0m  [1m[35mCREATE TABLE "seller_details" ("id" bigserial primary key, "user_id" bigint, "ssn_no" character varying, "birth_date" date, "store_name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (38.1ms)[0m  [1m[35mCREATE  INDEX  "index_seller_details_on_user_id" ON "seller_details"  ("user_id")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171012181059"]]
+  [1m[35m (16.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateBrandDetails (20171012181105)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (103.7ms)[0m  [1m[35mCREATE TABLE "brand_details" ("id" bigserial primary key, "user_id" bigint, "company_name" character varying, "ein" character varying, "web_address" character varying, "annual_revenue" float, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (38.1ms)[0m  [1m[35mCREATE  INDEX  "index_brand_details_on_user_id" ON "brand_details"  ("user_id")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171012181105"]]
+  [1m[35m (15.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddIsSuperAdminToUser (20171023050159)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (222.6ms)[0m  [1m[35mALTER TABLE "users" ADD "is_super_admin" boolean DEFAULT 'f'[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171023050159"]]
+  [1m[35m (22.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCategories (20171023174654)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (96.3ms)[0m  [1m[35mCREATE TABLE "categories" ("id" bigserial primary key, "name" character varying, "description" text, "parent_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (37.7ms)[0m  [1m[35mCREATE  INDEX  "index_categories_on_parent_id" ON "categories"  ("parent_id")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171023174654"]]
+  [1m[35m (22.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateProductCategories (20171024173233)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (89.2ms)[0m  [1m[35mCREATE TABLE "product_categories" ("id" bigserial primary key, "name" character varying, "description" text, "category_id" bigint, "sub_category_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (46.4ms)[0m  [1m[35mCREATE  INDEX  "index_product_categories_on_category_id" ON "product_categories"  ("category_id")[0m
+  [1m[35m (38.1ms)[0m  [1m[35mCREATE  INDEX  "index_product_categories_on_sub_category_id" ON "product_categories"  ("sub_category_id")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171024173233"]]
+  [1m[35m (21.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20171029183134)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (97.0ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "brand_detail_id" bigint, "name" character varying, "title" character varying, "description" text, "price" float, "upc" character varying, "item_number" character varying, "model_number" character varying, "heading_1" text, "heading_2" text, "heading_3" text, "h1_description" text, "h2_description" text, "h3_description" text, "discount_in_percent" float, "discount_in_currency" float, "category_id" bigint, "sub_category_id" bigint, "product_category_id" bigint, "enabled_for_sale" boolean DEFAULT 'f', "style" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (46.5ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_brand_detail_id" ON "items"  ("brand_detail_id")[0m
+  [1m[35m (54.8ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_category_id" ON "items"  ("category_id")[0m
+  [1m[35m (37.9ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_sub_category_id" ON "items"  ("sub_category_id")[0m
+  [1m[35m (38.6ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_product_category_id" ON "items"  ("product_category_id")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171029183134"]]
+  [1m[35m (20.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateImages (20171029184925)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (107.9ms)[0m  [1m[35mCREATE TABLE "images" ("id" bigserial primary key, "parent_id" integer, "parent_type" character varying, "title" character varying, "file" character varying, "size" character varying, "image_type" character varying, "format" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171029184925"]]
+  [1m[35m (19.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddCommissionColsToItem (20171115193453)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "items" ADD "commission_in_percent" float[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "items" ADD "commission_in_currency" float[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171115193453"]]
+  [1m[35m (9.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateSellerItems (20171115194648)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (82.9ms)[0m  [1m[35mCREATE TABLE "seller_items" ("id" bigserial primary key, "seller_id" bigint, "item_id" bigint, "discontinued" boolean DEFAULT 'f', "discontinued_reason" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (38.1ms)[0m  [1m[35mCREATE  INDEX  "index_seller_items_on_seller_id" ON "seller_items"  ("seller_id")[0m
+  [1m[35m (55.2ms)[0m  [1m[35mCREATE  INDEX  "index_seller_items_on_item_id" ON "seller_items"  ("item_id")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171115194648"]]
+  [1m[35m (18.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateFriendlyIdSlugs (20171121181813)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (93.8ms)[0m  [1m[35mCREATE TABLE "friendly_id_slugs" ("id" bigserial primary key, "slug" character varying NOT NULL, "sluggable_id" integer NOT NULL, "sluggable_type" character varying(50), "scope" character varying, "created_at" timestamp)[0m
+  [1m[35m (37.9ms)[0m  [1m[35mCREATE  INDEX  "index_friendly_id_slugs_on_sluggable_id" ON "friendly_id_slugs"  ("sluggable_id")[0m
+  [1m[35m (114.1ms)[0m  [1m[35mCREATE  INDEX  "index_friendly_id_slugs_on_slug_and_sluggable_type" ON "friendly_id_slugs"  ("slug", "sluggable_type")[0m
+  [1m[35m (45.4ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope" ON "friendly_id_slugs"  ("slug", "sluggable_type", "scope")[0m
+  [1m[35m (37.6ms)[0m  [1m[35mCREATE  INDEX  "index_friendly_id_slugs_on_sluggable_type" ON "friendly_id_slugs"  ("sluggable_type")[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171121181813"]]
+  [1m[35m (33.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddSlugsToCategoriesTables (20171121183454)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "categories" ADD "slug" character varying[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "product_categories" ADD "slug" character varying[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171121183454"]]
+  [1m[35m (9.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddPhoneToUser (20171207131303)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "users" ADD "phone" character varying[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171207131303"]]
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddProfilePicToUser (20171207184835)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "users" ADD "profile_pic" character varying[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171207184835"]]
+  [1m[35m (3.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateShops (20180217082017)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (86.8ms)[0m  [1m[35mCREATE TABLE "shops" ("id" bigserial primary key, "shopify_domain" character varying NOT NULL, "shopify_token" character varying NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (37.7ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_shops_on_shopify_domain" ON "shops"  ("shopify_domain")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20180217082017"]]
+  [1m[35m (15.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddSessionsTable (20180222081529)
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (104.4ms)[0m  [1m[35mCREATE TABLE "sessions" ("id" bigserial primary key, "session_id" character varying NOT NULL, "data" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (37.5ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_sessions_on_session_id" ON "sessions"  ("session_id")[0m
+  [1m[35m (38.0ms)[0m  [1m[35mCREATE  INDEX  "index_sessions_on_updated_at" ON "sessions"  ("updated_at")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20180222081529"]]
+  [1m[35m (14.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateShopifyShops (20180223203220)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (88.8ms)[0m  [1m[35mCREATE TABLE "shopify_shops" ("id" bigserial primary key, "brand_detail_id" bigint, "name" character varying, "url" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (45.7ms)[0m  [1m[35mCREATE  INDEX  "index_shopify_shops_on_brand_detail_id" ON "shopify_shops"  ("brand_detail_id")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20180223203220"]]
+  [1m[35m (22.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddShopifyShopToItem (20180223203430)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "items" ADD "shopify_shop_id" integer[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20180223203430"]]
+  [1m[35m (9.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddSkuToItem (20180316131317)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "items" ADD "sku" character varying[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20180316131317"]]
+  [1m[35m (2.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateApps (20180324141913)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (80.6ms)[0m  [1m[35mCREATE TABLE "apps" ("id" bigserial primary key, "name" character varying, "url" character varying, "logo" character varying, "original" boolean DEFAULT 't', "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20180324141913"]]
+  [1m[35m (22.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateRecommendedApps (20180404173518)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (88.5ms)[0m  [1m[35mCREATE TABLE "recommended_apps" ("id" bigserial primary key, "user_id" bigint, "name" character varying, "url" character varying, "integrated" boolean DEFAULT 'f', "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (38.1ms)[0m  [1m[35mCREATE  INDEX  "index_recommended_apps_on_user_id" ON "recommended_apps"  ("user_id")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20180404173518"]]
+  [1m[35m (21.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.0ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-01-21 09:46:17.148015"], ["updated_at", "2019-01-21 09:46:17.148015"]]
+  [1m[35m (17.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(7856604754602880815)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 122.160.45.93 at 2019-01-21 15:16:59 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (4671.3ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (4705.5ms)
+Completed 200 OK in 4933ms (Views: 4884.6ms | ActiveRecord: 27.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7BkkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEY=\n"], ["updated_at", "2019-01-21 09:47:04.704215"], ["id", 1]]
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users/sign_in" for 122.160.45.93 at 2019-01-21 15:17:41 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"AMzSDSyqCSdkoK/wMObzfWY0PhIr4ScKXC5yGtEztQ3U3BRAS/Aey0ARo7YN2DLUIVpdcLgDJcHaJSvezCCCbg==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 5ms (ActiveRecord: 1.0ms)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"AMzSDSyqCSdkoK/wMObzfWY0PhIr4ScKXC5yGtEztQ3U3BRAS/Aey0ARo7YN2DLUIVpdcLgDJcHaJSvezCCCbg==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (1.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (3.3ms)
+Completed 200 OK in 250ms (Views: 126.5ms | ActiveRecord: 0.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users/sign_in" for 122.160.45.93 at 2019-01-21 15:17:57 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"MFc419tS2/uWpcIGmwO04MJswRwHwhre18yYbtemvIzkR/6avAjMF7IUzkCmPXVJhQKifpQgGBVRx8GqyrWL7w==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 5ms (ActiveRecord: 1.2ms)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"MFc419tS2/uWpcIGmwO04MJswRwHwhre18yYbtemvIzkR/6avAjMF7IUzkCmPXVJhQKifpQgGBVRx8GqyrWL7w==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (1.5ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (3.3ms)
+Completed 200 OK in 247ms (Views: 114.0ms | ActiveRecord: 0.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 15:18:30 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (2.6ms)
+  Rendered shared/_header.html.erb (1.2ms)
+Completed 200 OK in 273ms (Views: 271.2ms | ActiveRecord: 0.3ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 15:18:31 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (1.4ms)
+  Rendered shared/_header.html.erb (1.7ms)
+Completed 200 OK in 124ms (Views: 120.0ms | ActiveRecord: 0.4ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 15:18:32 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (3.5ms)
+  Rendered shared/_header.html.erb (1.6ms)
+Completed 200 OK in 134ms (Views: 129.5ms | ActiveRecord: 0.8ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 15:18:33 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (3.1ms)
+  Rendered shared/_header.html.erb (1.6ms)
+Completed 200 OK in 147ms (Views: 142.7ms | ActiveRecord: 0.6ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 15:18:33 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (3.1ms)
+  Rendered shared/_header.html.erb (1.3ms)
+Completed 200 OK in 135ms (Views: 131.4ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 15:18:34 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (1.8ms)
+Started GET "/users/password/new" for 122.160.45.93 at 2019-01-21 15:18:35 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  Rendered shared/_header.html.erb (1.6ms)
+Completed 200 OK in 141ms (Views: 137.2ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+Processing by Users::PasswordsController#new as HTML
+  [1m[35m (6.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  Rendering devise/passwords/new.html.erb within layouts/application
+  Rendered devise/passwords/new.html.erb within layouts/application (1.5ms)
+  Rendered shared/_header.html.erb (1.5ms)
+Completed 200 OK in 144ms (Views: 129.5ms | ActiveRecord: 4.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/check_email?user%5Bemail%5D=mayursaxena162%40gmail.com" for 122.160.45.93 at 2019-01-21 15:20:51 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#check_email as JSON
+  Parameters: {"user"=>{"email"=>"mayursaxena162@gmail.com"}}
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+Completed 200 OK in 14ms (Views: 0.4ms | ActiveRecord: 2.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/sign_up/identity.user" for 122.160.45.93 at 2019-01-21 15:21:08 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#initialize_user as 
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"jJgsC1sXVGVzLdYVY4ImpPQMt9zzEo8TcHD6DbFm70hYiOpGPE1DiVec2lNevOcNs2LUvmDwjdj2e6PJrHXYKw==", "user"=>{"account_type"=>"seller", "email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Next"}
+  Rendering users/registrations/initialize_user.html.erb within layouts/application
+  Rendered users/registrations/_states.html.erb (450.9ms)
+  Rendered users/registrations/_seller_details.html.erb (460.4ms)
+  Rendered users/registrations/initialize_user.html.erb within layouts/application (463.6ms)
+  Rendered shared/_header.html.erb (1.7ms)
+Completed 200 OK in 721ms (Views: 574.0ms | ActiveRecord: 0.9ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/change_states?country=IN&_=1548064269802" for 122.160.45.93 at 2019-01-21 15:25:44 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#change_states as JS
+  Parameters: {"country"=>"IN", "_"=>"1548064269802"}
+  Rendering users/registrations/change_states.js.erb
+  Rendered users/registrations/_states.html.erb (208.8ms)
+  Rendered users/registrations/change_states.js.erb (212.1ms)
+Completed 200 OK in 224ms (Views: 218.8ms | ActiveRecord: 0.4ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users" for 122.160.45.93 at 2019-01-21 15:26:20 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"JCuPQ+s7Wx+vFNa+8HUWBcScb0u/j3Lv9ud+D0Ag+pLwO0kOjGFM84ul2vjNS9esg/IMKSxtcCRw7CfLXTPN8Q==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "account_type"=>"seller", "first_name"=>"Mayur", "last_name"=>"Saxena", "address"=>"scf", "suit"=>"11", "city"=>"faridabad", "state"=>"HR", "postal_code"=>"101213", "country"=>"IN"}, "ssn"=>"8439050350", "date"=>"23", "month"=>"1", "year"=>"1905", "store_name"=>"Beryl Systems Store Ltd", "commit"=>"Submit"}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "first_name", "last_name", "address", "suit", "city", "state", "postal_code", "country", "account_type", "is_admin", "confirmation_token", "confirmation_sent_at", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING "id"[0m  [["email", "mayursaxena162@gmail.com"], ["encrypted_password", "$2a$11$OBlv.jjw7zhd7W4BMFCzAuA.SRr/jAJe41/pHKDc2Ftxh0utEjnMy"], ["first_name", "Mayur"], ["last_name", "Saxena"], ["address", "scf"], ["suit", "11"], ["city", "faridabad"], ["state", "HR"], ["postal_code", "101213"], ["country", "IN"], ["account_type", "seller"], ["is_admin", "t"], ["confirmation_token", "PsCLeXT6ELpDsoXhyXGu"], ["confirmation_sent_at", "2019-01-21 09:56:20.416021"], ["created_at", "2019-01-21 09:56:20.415070"], ["updated_at", "2019-01-21 09:56:20.415070"]]
+  [1m[35m (13.8ms)[0m  [1m[35mCOMMIT[0m
+  Rendering devise/mailer/confirmation_instructions.html.erb within layouts/mailer
+  Rendered devise/mailer/confirmation_instructions.html.erb within layouts/mailer (1.3ms)
+Devise::Mailer#confirmation_instructions: processed outbound mail in 220.4ms
+Sent mail to mayursaxena162@gmail.com (4860.3ms)
+Date: Mon, 21 Jan 2019 15:26:20 +0530
+From: beryl.testing123@gmail.com
+Reply-To: beryl.testing123@gmail.com
+To: mayursaxena162@gmail.com
+Message-ID: <5c459744a045b_57303a314b836426@beryl-systems.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <title>Sellist</title>
+    <style>
+        .bodyContent{
+            background-color:#32c5ef;
+        }
+        .bodyContent img{
+            height:240px;
+            width:120px;
+            padding-top: 67px;
+            padding-bottom: 24px;
+        }
+        .bodyContent1{
+            background-color:#36a6d7;
+        }
+        .bodyContent1 p{
+            font-size:15px;
+            padding-left:75px;
+            font-family: 'Roboto', sans-serif;
+            margin-top:10px;
+            margin-bottom:10px;
+        }
+        #bodyTable2{
+            background-color:#f1f1f2;
+        }
+        .bodyContent2 h2{
+            font-size:24px;
+            padding-left:90px;
+            margin-bottom:15px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent3{
+            padding-bottom:0px;
+        }
+        .bodyContent3 p{
+            font-size:16px;
+            padding-left:90px;
+            margin-top:10px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent4{
+            padding-top:15px;
+            padding-bottom:15px;
+        }
+        .bodyContent4 h4{
+            font-size:16px;
+            padding-left:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent5 h4{
+            font-size:16px;
+            padding-left:100px;
+            margin-bottom:0px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent5 p{
+            font-size:16px;
+            margin-top:0px;
+            padding-left:100px;
+            padding-right:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent6 p{
+            font-size:16px;
+            margin-top:30px;
+            padding-left:100px;
+            padding-right:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent7 p{
+            font-size:16px;
+            padding-left:100px;
+            padding-right:100px;
+            margin-top:120px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+    </style>
+  </head>
+
+  <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    <center>
+  <table cellspacing="0" cellpadding="0" align="center" border="0" height="100%" width="720px" id="bodyTable">
+    <tr>
+      <td>
+        <table cellspacing="0" cellpadding="0" align="center" border="0" height="100%" width="720px" id="bodyTable1">
+          <tr>
+            <td class="bodyContent" align="center" valign="top">
+              <img src="/assets/logo-bbd086cec6208fa1fd0cb691a40520938b73625180e0a4ccec144d71b2c3a29a.svg" alt="Logo" />
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent1" align="left" valign="top">
+              <p id="date" style="color:#f1f2f2">JANUARY 21, 2019</p>
+            </td>
+          </tr>
+        </table>
+        <table cellspacing="0" cellpadding="0" align="center" border="0" height="100%" width="720px" id="bodyTable2">
+          <tr>
+            <td class="bodyContent2" align="left" valign="top">
+              <h2>Verify your email address</h2>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent3" align="left" valign="top">
+              <p>Hi, thank's for creating a Sellist account!</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent4" align="left" valign="top">
+              <h4>Account Activation Code: <span id="code">PsCLeXT6ELpDsoXhyXGu</span></h4>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent5" align="left" valign="top">
+              <h4>Next Steps,</h4>
+              <p>Upload items using the Item Import Template. Then upload photos for those items, verify all item details on the selling page and mark them for sale.</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent6" align="center" valign="top">
+              <p>If you need help at anytime please use the chat on the bottom right of every page in your Sellist account or email <a href="mailto:support@sellist.io" style="color:#27aae1">support@sellist.io</a></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent7" align="center" valign="top">
+              <p>You are receiving this email because you signed up for a Sellist Account.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</center>
+
+
+  </body>
+</html>
+
+Unpermitted parameters: :utf8, :authenticity_token, :user, :ssn, :date, :month, :year, :commit
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "seller_details" ("user_id", "birth_date", "store_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 1], ["birth_date", "1905-01-23"], ["store_name", "Beryl Systems Store Ltd"], ["created_at", "2019-01-21 09:56:25.570622"], ["updated_at", "2019-01-21 09:56:25.570622"]]
+  [1m[35m (17.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mSellerDetail Load (0.4ms)[0m  [1m[34mSELECT  "seller_details".* FROM "seller_details" WHERE "seller_details"."user_id" = $1 LIMIT $2[0m  [["user_id", 1], ["LIMIT", 1]]
+Redirected to http://203bf0ae.ngrok.io/sign_up/activation
+Completed 302 Found in 5324ms (ActiveRecord: 46.2ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7B0kiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkG\n"], ["updated_at", "2019-01-21 09:56:25.594586"], ["id", 1]]
+  [1m[35m (10.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/sign_up/activation" for 122.160.45.93 at 2019-01-21 15:26:26 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activation as HTML
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering users/registrations/activation.html.erb within layouts/application
+  Rendered users/registrations/activation.html.erb within layouts/application (2.5ms)
+  Rendered shared/_header.html.erb (1.2ms)
+Completed 200 OK in 134ms (Views: 124.6ms | ActiveRecord: 1.9ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/sign_up/activate_user" for 122.160.45.93 at 2019-01-21 15:29:16 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activate_user as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"DAUjYb4oeUYA+2urwied2slQWnUk/KqThaH8xRcXy1PYFeUs2XJuqiRKZ+3/GVxzjj45F7ceqFgDqqUBCgT8MA==", "activation_key"=>"JANUARY 21,2019", "commit"=>"Activate"}
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."confirmation_token" = $1 LIMIT $2[0m  [["confirmation_token", "JANUARY 21,2019"], ["LIMIT", 1]]
+  Rendering users/registrations/activation.html.erb within layouts/application
+  Rendered users/registrations/activation.html.erb within layouts/application (2.1ms)
+  Rendered shared/_header.html.erb (1.2ms)
+Completed 200 OK in 138ms (Views: 124.8ms | ActiveRecord: 4.7ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/sign_up/activate_user" for 122.160.45.93 at 2019-01-21 15:30:29 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activate_user as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"lySxBALiKs9z8sug5AHHRkhDe1erFR/z+EmqasKkoOxDNHdJZbg9I1dDx+bZPwbvDy0YNTj3HTh+QvOu37eXjw==", "activation_key"=>"", "commit"=>"Activate"}
+No template found for Users::RegistrationsController#activate_user, rendering head :no_content
+Completed 204 No Content in 126ms (ActiveRecord: 0.8ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_in" for 122.160.45.93 at 2019-01-21 15:31:08 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (5.5ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (10.6ms)
+Completed 200 OK in 141ms (Views: 135.9ms | ActiveRecord: 1.1ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users/sign_in" for 122.160.45.93 at 2019-01-21 15:31:45 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"hmb+eDE2lTzr2WDIOKVh9fLqfmIKa3b0i8T3t3LLFFxSdjg1VmyC0M9obI4Fm6BctYQdAJmJdD8Nz65zb9gjPw==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Completed 401 Unauthorized in 136ms (ActiveRecord: 1.9ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "sessions" WHERE "sessions"."id" = $1[0m  [["id", 1]]
+  [1m[35m (11.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "sessions" ("session_id", "data", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["session_id", "6df514a75704a9282f218f6c5e48cf0c"], ["data", "BAh7B0kiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkG\n"], ["created_at", "2019-01-21 10:01:45.300805"], ["updated_at", "2019-01-21 10:01:45.300805"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkG\nSSIKZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsASSIMZmxhc2hlcwY7AFR7\nBkkiCmFsZXJ0BjsARkkiPllvdSBoYXZlIHRvIGNvbmZpcm0geW91ciBlbWFp\nbCBhZGRyZXNzIGJlZm9yZSBjb250aW51aW5nLgY7AFQ=\n"], ["updated_at", "2019-01-21 10:01:45.310182"], ["id", 2]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_in" for 122.160.45.93 at 2019-01-21 15:31:45 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (2.0ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (3.9ms)
+Completed 200 OK in 115ms (Views: 112.3ms | ActiveRecord: 0.4ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for 122.160.45.93 at 2019-01-21 15:32:01 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (4.8ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (9.7ms)
+Completed 200 OK in 125ms (Views: 123.8ms | ActiveRecord: 0.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 15:32:46 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (3.0ms)
+  Rendered shared/_header.html.erb (1.7ms)
+Completed 200 OK in 133ms (Views: 128.2ms | ActiveRecord: 0.8ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 15:32:47 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (1.6ms)
+  Rendered shared/_header.html.erb (1.4ms)
+Completed 200 OK in 146ms (Views: 143.2ms | ActiveRecord: 0.6ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/check_email?user%5Bemail%5D=mayuramu123%40g" for 122.160.45.93 at 2019-01-21 15:33:19 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#check_email as JSON
+  Parameters: {"user"=>{"email"=>"mayuramu123@g"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayuramu123@g"], ["LIMIT", 1]]
+Completed 200 OK in 5ms (Views: 0.2ms | ActiveRecord: 1.1ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/check_email?user%5Bemail%5D=mayuramu123%40gm" for 122.160.45.93 at 2019-01-21 15:33:22 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#check_email as JSON
+  Parameters: {"user"=>{"email"=>"mayuramu123@gm"}}
+Started GET "/users/check_email?user%5Bemail%5D=mayuramu123%40gma" for 122.160.45.93 at 2019-01-21 15:33:22 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#check_email as JSON
+  Parameters: {"user"=>{"email"=>"mayuramu123@gma"}}
+Started GET "/users/check_email?user%5Bemail%5D=mayuramu123%40gmail" for 122.160.45.93 at 2019-01-21 15:33:22 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayuramu123@gm"], ["LIMIT", 1]]
+Processing by Users::RegistrationsController#check_email as JSON
+Completed 200 OK in 30ms (Views: 0.3ms | ActiveRecord: 3.7ms | Solr: 0.0ms)
+
+
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayuramu123@gma"], ["LIMIT", 1]]
+  Parameters: {"user"=>{"email"=>"mayuramu123@gmail"}}
+Completed 200 OK in 21ms (Views: 0.3ms | ActiveRecord: 8.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (11.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayuramu123@gmail"], ["LIMIT", 1]]
+Completed 200 OK in 20ms (Views: 0.1ms | ActiveRecord: 6.9ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/check_email?user%5Bemail%5D=mayuramu123%40gmai" for 122.160.45.93 at 2019-01-21 15:33:22 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#check_email as JSON
+Started GET "/users/check_email?user%5Bemail%5D=mayuramu123%40gmail.com" for 122.160.45.93 at 2019-01-21 15:33:22 +0530
+  Parameters: {"user"=>{"email"=>"mayuramu123@gmai"}}
+Started GET "/users/check_email?user%5Bemail%5D=mayuramu123%40gmail.c" for 122.160.45.93 at 2019-01-21 15:33:22 +0530
+Started GET "/users/check_email?user%5Bemail%5D=mayuramu123%40gmail.co" for 122.160.45.93 at 2019-01-21 15:33:22 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#check_email as JSON
+Processing by Users::RegistrationsController#check_email as JSON
+Processing by Users::RegistrationsController#check_email as JSON
+  Parameters: {"user"=>{"email"=>"mayuramu123@gmail.com"}}
+  Parameters: {"user"=>{"email"=>"mayuramu123@gmail.c"}}
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayuramu123@gmai"], ["LIMIT", 1]]
+  Parameters: {"user"=>{"email"=>"mayuramu123@gmail.co"}}
+Completed 200 OK in 11ms (Views: 0.1ms | ActiveRecord: 6.4ms | Solr: 0.0ms)
+
+
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayuramu123@gmail.c"], ["LIMIT", 1]]
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayuramu123@gmail.com"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 2.9ms | Solr: 0.0ms)
+
+
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 2.2ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayuramu123@gmail.co"], ["LIMIT", 1]]
+Completed 200 OK in 13ms (Views: 0.1ms | ActiveRecord: 5.4ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/sign_up/identity.user" for 122.160.45.93 at 2019-01-21 15:34:04 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#initialize_user as 
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"XF1dIiQCG1BiyxJXUgX2BcaB/Ma8JhjZGi0SL/olfB2ITZtvQ1gMvEZ6HhFvOzesge+fpC/EGhKcJkvr5zZLfg==", "user"=>{"account_type"=>"seller", "email"=>"mayuramu123@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Next"}
+  Rendering users/registrations/initialize_user.html.erb within layouts/application
+  Rendered users/registrations/_states.html.erb (0.6ms)
+  Rendered users/registrations/_seller_details.html.erb (9.3ms)
+  Rendered users/registrations/initialize_user.html.erb within layouts/application (12.0ms)
+  Rendered shared/_header.html.erb (1.1ms)
+Completed 200 OK in 259ms (Views: 108.6ms | ActiveRecord: 0.9ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/change_states?country=IN&_=1548065045609" for 122.160.45.93 at 2019-01-21 15:34:59 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#change_states as JS
+  Parameters: {"country"=>"IN", "_"=>"1548065045609"}
+  Rendering users/registrations/change_states.js.erb
+  Rendered users/registrations/_states.html.erb (1.0ms)
+  Rendered users/registrations/change_states.js.erb (6.1ms)
+Completed 200 OK in 41ms (Views: 26.4ms | ActiveRecord: 0.8ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users" for 122.160.45.93 at 2019-01-21 15:35:12 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"7CAjLd9N4KMOgFfXe3zkbF6mx+mvX9MrlGQGD2lNsGo4MOVguBf3TyoxW5FGQiXFGcikizy90eASb1/LdF6HCQ==", "user"=>{"email"=>"mayuramu123@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "account_type"=>"seller", "first_name"=>"Mayur", "last_name"=>"Saxena", "address"=>"scf", "suit"=>"11", "city"=>"faridabad", "state"=>"HR", "postal_code"=>"201111", "country"=>"IN"}, "ssn"=>"8439050350", "date"=>"23", "month"=>"1", "year"=>"1995", "store_name"=>"noidastore", "commit"=>"Submit"}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayuramu123@gmail.com"], ["LIMIT", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "first_name", "last_name", "address", "suit", "city", "state", "postal_code", "country", "account_type", "is_admin", "confirmation_token", "confirmation_sent_at", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING "id"[0m  [["email", "mayuramu123@gmail.com"], ["encrypted_password", "$2a$11$BmetpQy92G2o24CMvfzFJueljSymD5cy6tzgykGGUSgOVtdBcJ3Ka"], ["first_name", "Mayur"], ["last_name", "Saxena"], ["address", "scf"], ["suit", "11"], ["city", "faridabad"], ["state", "HR"], ["postal_code", "201111"], ["country", "IN"], ["account_type", "seller"], ["is_admin", "t"], ["confirmation_token", "CiTyxduZjaaNd3-T22xu"], ["confirmation_sent_at", "2019-01-21 10:05:12.269979"], ["created_at", "2019-01-21 10:05:12.269886"], ["updated_at", "2019-01-21 10:05:12.269886"]]
+  [1m[35m (19.4ms)[0m  [1m[35mCOMMIT[0m
+  Rendering devise/mailer/confirmation_instructions.html.erb within layouts/mailer
+  Rendered devise/mailer/confirmation_instructions.html.erb within layouts/mailer (1.3ms)
+Devise::Mailer#confirmation_instructions: processed outbound mail in 5.6ms
+Sent mail to mayuramu123@gmail.com (5298.9ms)
+Date: Mon, 21 Jan 2019 15:35:12 +0530
+From: beryl.testing123@gmail.com
+Reply-To: beryl.testing123@gmail.com
+To: mayuramu123@gmail.com
+Message-ID: <5c45995848bcb_57303a314b8365ce@beryl-systems.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <title>Sellist</title>
+    <style>
+        .bodyContent{
+            background-color:#32c5ef;
+        }
+        .bodyContent img{
+            height:240px;
+            width:120px;
+            padding-top: 67px;
+            padding-bottom: 24px;
+        }
+        .bodyContent1{
+            background-color:#36a6d7;
+        }
+        .bodyContent1 p{
+            font-size:15px;
+            padding-left:75px;
+            font-family: 'Roboto', sans-serif;
+            margin-top:10px;
+            margin-bottom:10px;
+        }
+        #bodyTable2{
+            background-color:#f1f1f2;
+        }
+        .bodyContent2 h2{
+            font-size:24px;
+            padding-left:90px;
+            margin-bottom:15px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent3{
+            padding-bottom:0px;
+        }
+        .bodyContent3 p{
+            font-size:16px;
+            padding-left:90px;
+            margin-top:10px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent4{
+            padding-top:15px;
+            padding-bottom:15px;
+        }
+        .bodyContent4 h4{
+            font-size:16px;
+            padding-left:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent5 h4{
+            font-size:16px;
+            padding-left:100px;
+            margin-bottom:0px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent5 p{
+            font-size:16px;
+            margin-top:0px;
+            padding-left:100px;
+            padding-right:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent6 p{
+            font-size:16px;
+            margin-top:30px;
+            padding-left:100px;
+            padding-right:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent7 p{
+            font-size:16px;
+            padding-left:100px;
+            padding-right:100px;
+            margin-top:120px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+    </style>
+  </head>
+
+  <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    <center>
+  <table cellspacing="0" cellpadding="0" align="center" border="0" height="100%" width="720px" id="bodyTable">
+    <tr>
+      <td>
+        <table cellspacing="0" cellpadding="0" align="center" border="0" height="100%" width="720px" id="bodyTable1">
+          <tr>
+            <td class="bodyContent" align="center" valign="top">
+              <img src="/assets/logo-bbd086cec6208fa1fd0cb691a40520938b73625180e0a4ccec144d71b2c3a29a.svg" alt="Logo" />
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent1" align="left" valign="top">
+              <p id="date" style="color:#f1f2f2">JANUARY 21, 2019</p>
+            </td>
+          </tr>
+        </table>
+        <table cellspacing="0" cellpadding="0" align="center" border="0" height="100%" width="720px" id="bodyTable2">
+          <tr>
+            <td class="bodyContent2" align="left" valign="top">
+              <h2>Verify your email address</h2>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent3" align="left" valign="top">
+              <p>Hi, thank's for creating a Sellist account!</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent4" align="left" valign="top">
+              <h4>Account Activation Code: <span id="code">CiTyxduZjaaNd3-T22xu</span></h4>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent5" align="left" valign="top">
+              <h4>Next Steps,</h4>
+              <p>Upload items using the Item Import Template. Then upload photos for those items, verify all item details on the selling page and mark them for sale.</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent6" align="center" valign="top">
+              <p>If you need help at anytime please use the chat on the bottom right of every page in your Sellist account or email <a href="mailto:support@sellist.io" style="color:#27aae1">support@sellist.io</a></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent7" align="center" valign="top">
+              <p>You are receiving this email because you signed up for a Sellist Account.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</center>
+
+
+  </body>
+</html>
+
+Unpermitted parameters: :utf8, :authenticity_token, :user, :ssn, :date, :month, :year, :commit
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.1ms)[0m  [1m[32mINSERT INTO "seller_details" ("user_id", "birth_date", "store_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 2], ["birth_date", "1995-01-23"], ["store_name", "noidastore"], ["created_at", "2019-01-21 10:05:17.601281"], ["updated_at", "2019-01-21 10:05:17.601281"]]
+  [1m[35m (27.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mSellerDetail Load (0.7ms)[0m  [1m[34mSELECT  "seller_details".* FROM "seller_details" WHERE "seller_details"."user_id" = $1 LIMIT $2[0m  [["user_id", 2], ["LIMIT", 1]]
+Redirected to http://203bf0ae.ngrok.io/sign_up/activation
+Completed 302 Found in 5512ms (ActiveRecord: 50.8ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkH\nSSIKZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsASSIMZmxhc2hlcwY7AFR7\nBkkiCmFsZXJ0BjsARkkiPllvdSBoYXZlIHRvIGNvbmZpcm0geW91ciBlbWFp\nbCBhZGRyZXNzIGJlZm9yZSBjb250aW51aW5nLgY7AFQ=\n"], ["updated_at", "2019-01-21 10:05:17.641727"], ["id", 2]]
+  [1m[35m (37.7ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/sign_up/activation" for 122.160.45.93 at 2019-01-21 15:35:18 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activation as HTML
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  Rendering users/registrations/activation.html.erb within layouts/application
+  Rendered users/registrations/activation.html.erb within layouts/application (3.1ms)
+  Rendered shared/_header.html.erb (1.2ms)
+Completed 200 OK in 136ms (Views: 128.2ms | ActiveRecord: 1.6ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/sign_up/activate_user" for 122.160.45.93 at 2019-01-21 15:54:43 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activate_user as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"DAUjYb4oeUYA+2urwied2slQWnUk/KqThaH8xRcXy1PYFeUs2XJuqiRKZ+3/GVxzjj45F7ceqFgDqqUBCgT8MA==", "activation_key"=>"JANUARY 21,2019", "commit"=>"Activate"}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."confirmation_token" = $1 LIMIT $2[0m  [["confirmation_token", "JANUARY 21,2019"], ["LIMIT", 1]]
+  Rendering users/registrations/activation.html.erb within layouts/application
+  Rendered users/registrations/activation.html.erb within layouts/application (2.5ms)
+  Rendered shared/_header.html.erb (1.3ms)
+Completed 200 OK in 121ms (Views: 114.1ms | ActiveRecord: 1.6ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/sign_up/activate_user" for 122.160.45.93 at 2019-01-21 15:55:04 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activate_user as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oMRVo1DMDODcEdM4B88atDPg26dRQPzqNuU0zTS3qll01JPuN5YbDPig33468dsddI64xcKi/iGw7m0JKaSdOg==", "activation_key"=>"8439050350", "commit"=>"Activate"}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."confirmation_token" = $1 LIMIT $2[0m  [["confirmation_token", "8439050350"], ["LIMIT", 1]]
+  Rendering users/registrations/activation.html.erb within layouts/application
+  Rendered users/registrations/activation.html.erb within layouts/application (2.4ms)
+  Rendered shared/_header.html.erb (1.5ms)
+Completed 200 OK in 133ms (Views: 126.1ms | ActiveRecord: 1.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/sign_up/activate_user" for 122.160.45.93 at 2019-01-21 15:55:14 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activate_user as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"8dKgbSKH0AkIqxT6a30hsP4aYDOGITElULYGN5btfg4lwmYgRd3H5SwaGLxWQ+AZuXQDURXDM+7WvV/zi/5JbQ==", "activation_key"=>"my name is mayur saxena", "commit"=>"Activate"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."confirmation_token" = $1 LIMIT $2[0m  [["confirmation_token", "my name is mayur saxena"], ["LIMIT", 1]]
+  Rendering users/registrations/activation.html.erb within layouts/application
+  Rendered users/registrations/activation.html.erb within layouts/application (0.7ms)
+  Rendered shared/_header.html.erb (1.2ms)
+Completed 200 OK in 103ms (Views: 100.3ms | ActiveRecord: 0.7ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/sign_up/activate_user" for 122.160.45.93 at 2019-01-21 15:55:17 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activate_user as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"fCn3SxyPu7yz17vvr5QBctRiUlN09fq2qe8+7Xw9kcOoOTEGe9WsUJdmt6mSqsDbkwwxMecX+H0v5GcpYS6moA==", "activation_key"=>"", "commit"=>"Activate"}
+No template found for Users::RegistrationsController#activate_user, rendering head :no_content
+Completed 204 No Content in 129ms (ActiveRecord: 0.8ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for 122.160.45.93 at 2019-01-21 16:17:16 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (3.6ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (7.9ms)
+Completed 200 OK in 115ms (Views: 112.9ms | ActiveRecord: 0.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/sign_up/activate_user" for 122.160.45.93 at 2019-01-21 16:17:25 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  
+ActionController::RoutingError (No route matches [GET] "/sign_up/activate_user"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:17:50 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"viz5svh7Ic++wbqla3xz96FKMDix1DSn2yDjSf9yPqBqPD//nyE2I5pwtuNWQrJe5iRTWiI2NmxdK7qN4mEJww==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 133ms (ActiveRecord: 1.3ms)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"viz5svh7Ic++wbqla3xz96FKMDix1DSn2yDjSf9yPqBqPD//nyE2I5pwtuNWQrJe5iRTWiI2NmxdK7qN4mEJww==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (1.5ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (3.2ms)
+Completed 200 OK in 229ms (Views: 113.5ms | ActiveRecord: 0.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7B0kiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkH\n"], ["updated_at", "2019-01-21 10:47:51.001821"], ["id", 2]]
+  [1m[35m (16.9ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/sign_up/activate_user/" for 122.160.45.93 at 2019-01-21 16:18:01 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  
+ActionController::RoutingError (No route matches [GET] "/sign_up/activate_user"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/sign_up/activate_user" for 122.160.45.93 at 2019-01-21 16:18:06 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  
+ActionController::RoutingError (No route matches [GET] "/sign_up/activate_user"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 16:18:16 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (2.8ms)
+  Rendered shared/_header.html.erb (1.3ms)
+Completed 200 OK in 135ms (Views: 132.3ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 16:18:17 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (1.8ms)
+  Rendered shared/_header.html.erb (1.3ms)
+Completed 200 OK in 124ms (Views: 122.0ms | ActiveRecord: 0.3ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 16:18:18 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (2.4ms)
+  Rendered shared/_header.html.erb (1.3ms)
+Completed 200 OK in 126ms (Views: 122.6ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 16:18:20 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (1.8ms)
+  Rendered shared/_header.html.erb (1.7ms)
+Completed 200 OK in 148ms (Views: 145.1ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/check_email?user%5Bemail%5D=mayursaxena162%40gmail.com" for 122.160.45.93 at 2019-01-21 16:18:39 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#check_email as JSON
+  Parameters: {"user"=>{"email"=>"mayursaxena162@gmail.com"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+Completed 200 OK in 6ms (Views: 0.3ms | ActiveRecord: 1.3ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:18:53 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (5.4ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (10.9ms)
+Completed 200 OK in 131ms (Views: 126.1ms | ActiveRecord: 0.8ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:19:20 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"x3lCAN2qGL/TX/ObBZuxMuKKTqJFMgywYxeLCu3Xah8TaYRNuvAPU/fu/904pXCbpeQtwNbQDnvlHNLO8MRdfA==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Completed 401 Unauthorized in 137ms (ActiveRecord: 2.1ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "sessions" WHERE "sessions"."id" = $1[0m  [["id", 2]]
+  [1m[35m (16.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "sessions" ("session_id", "data", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["session_id", "e30d685a3aea205243bf6a9fc73ab5b6"], ["data", "BAh7B0kiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkH\n"], ["created_at", "2019-01-21 10:49:20.566984"], ["updated_at", "2019-01-21 10:49:20.566984"]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkH\nSSIKZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsASSIMZmxhc2hlcwY7AFR7\nBkkiCmFsZXJ0BjsARkkiPllvdSBoYXZlIHRvIGNvbmZpcm0geW91ciBlbWFp\nbCBhZGRyZXNzIGJlZm9yZSBjb250aW51aW5nLgY7AFQ=\n"], ["updated_at", "2019-01-21 10:49:20.575709"], ["id", 3]]
+  [1m[35m (3.9ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:19:21 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (3.2ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (6.2ms)
+Completed 200 OK in 142ms (Views: 138.4ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:19:43 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"l5DNwcEIeWAVTA8pldgrHznJ7c7nSSrpfsYzNZerWRtDgAuMplJujDH9A2+o5uq2fqeOrHSrKCL4zWrxirhueA==", "user"=>{"email"=>"mayursaxena162@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Completed 401 Unauthorized in 123ms (ActiveRecord: 1.3ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "sessions" WHERE "sessions"."id" = $1[0m  [["id", 3]]
+  [1m[35m (18.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "sessions" ("session_id", "data", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["session_id", "e9cd8aa84067729148b3a02731bf0801"], ["data", "BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkH\nSSIKZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsASSIMZmxhc2hlcwY7AFR7\nBkkiCmFsZXJ0BjsARkkiPllvdSBoYXZlIHRvIGNvbmZpcm0geW91ciBlbWFp\nbCBhZGRyZXNzIGJlZm9yZSBjb250aW51aW5nLgY7AFQ=\n"], ["created_at", "2019-01-21 10:49:44.124147"], ["updated_at", "2019-01-21 10:49:44.124147"]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:19:44 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (2.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (5.3ms)
+Completed 200 OK in 133ms (Views: 129.4ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:20:01 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"5dhymxGLV43ySsyvRZAjNU9DoWORvCC/6zLTDUBX57QxyLTWdtFAYdb7wOl4ruKcCC3CAQJeInRtOYrJXUTQ1w==", "user"=>{"email"=>"mayuramu123@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "mayuramu123@gmail.com"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Completed 401 Unauthorized in 132ms (ActiveRecord: 1.4ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "sessions" WHERE "sessions"."id" = $1[0m  [["id", 4]]
+  [1m[35m (20.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.6ms)[0m  [1m[32mINSERT INTO "sessions" ("session_id", "data", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["session_id", "c6a7956c0744d132e66b2734e5d3b124"], ["data", "BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkH\nSSIKZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsASSIMZmxhc2hlcwY7AFR7\nBkkiCmFsZXJ0BjsARkkiPllvdSBoYXZlIHRvIGNvbmZpcm0geW91ciBlbWFp\nbCBhZGRyZXNzIGJlZm9yZSBjb250aW51aW5nLgY7AFQ=\n"], ["created_at", "2019-01-21 10:50:01.432439"], ["updated_at", "2019-01-21 10:50:01.432439"]]
+  [1m[35m (3.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:20:02 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (2.9ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (5.3ms)
+Completed 200 OK in 137ms (Views: 134.2ms | ActiveRecord: 0.3ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/password/new" for 122.160.45.93 at 2019-01-21 16:20:05 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::PasswordsController#new as HTML
+  Rendering devise/passwords/new.html.erb within layouts/application
+  Rendered devise/passwords/new.html.erb within layouts/application (3.0ms)
+  Rendered shared/_header.html.erb (1.4ms)
+Completed 200 OK in 134ms (Views: 127.4ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/password/new" for 122.160.45.93 at 2019-01-21 16:20:06 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::PasswordsController#new as HTML
+  Rendering devise/passwords/new.html.erb within layouts/application
+  Rendered devise/passwords/new.html.erb within layouts/application (1.0ms)
+  Rendered shared/_header.html.erb (1.9ms)
+Completed 200 OK in 159ms (Views: 151.7ms | ActiveRecord: 0.4ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users/password" for 122.160.45.93 at 2019-01-21 16:20:19 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::PasswordsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"p7wgSGnMZlaLWpmifFw7rSyeIGUVZtYbJzwZvnS4qX9zrOYFDpZxuq/rleRBYvoEa/BDB4aE1NChN0B6aaueHA==", "user"=>{"email"=>"mayursaxena162@gmail.com"}, "commit"=>"Send me reset password instructions"}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "mayursaxena162@gmail.com"], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."reset_password_token" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["reset_password_token", "545ea1bc4b2135b7e173c1688c58bd9164f8fddee25f725d5e0bcb3f17beddfb"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "users" SET "reset_password_token" = $1, "reset_password_sent_at" = $2, "updated_at" = $3 WHERE "users"."id" = $4[0m  [["reset_password_token", "545ea1bc4b2135b7e173c1688c58bd9164f8fddee25f725d5e0bcb3f17beddfb"], ["reset_password_sent_at", "2019-01-21 10:50:19.400144"], ["updated_at", "2019-01-21 10:50:19.400931"], ["id", 1]]
+  [1m[35m (10.5ms)[0m  [1m[35mCOMMIT[0m
+  Rendering devise/mailer/reset_password_instructions.html.erb within layouts/mailer
+  Rendered devise/mailer/reset_password_instructions.html.erb within layouts/mailer (0.8ms)
+Devise::Mailer#reset_password_instructions: processed outbound mail in 9.2ms
+Sent mail to mayursaxena162@gmail.com (5161.1ms)
+Date: Mon, 21 Jan 2019 16:20:19 +0530
+From: beryl.testing123@gmail.com
+Reply-To: beryl.testing123@gmail.com
+To: mayursaxena162@gmail.com
+Message-ID: <5c45a3eb6795d_57303a3154436624@beryl-systems.mail>
+Subject: Reset password instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <title>Sellist</title>
+    <style>
+        .bodyContent{
+            background-color:#32c5ef;
+        }
+        .bodyContent img{
+            height:240px;
+            width:120px;
+            padding-top: 67px;
+            padding-bottom: 24px;
+        }
+        .bodyContent1{
+            background-color:#36a6d7;
+        }
+        .bodyContent1 p{
+            font-size:15px;
+            padding-left:75px;
+            font-family: 'Roboto', sans-serif;
+            margin-top:10px;
+            margin-bottom:10px;
+        }
+        #bodyTable2{
+            background-color:#f1f1f2;
+        }
+        .bodyContent2 h2{
+            font-size:24px;
+            padding-left:90px;
+            margin-bottom:15px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent3{
+            padding-bottom:0px;
+        }
+        .bodyContent3 p{
+            font-size:16px;
+            padding-left:90px;
+            margin-top:10px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent4{
+            padding-top:15px;
+            padding-bottom:15px;
+        }
+        .bodyContent4 h4{
+            font-size:16px;
+            padding-left:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent5 h4{
+            font-size:16px;
+            padding-left:100px;
+            margin-bottom:0px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent5 p{
+            font-size:16px;
+            margin-top:0px;
+            padding-left:100px;
+            padding-right:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent6 p{
+            font-size:16px;
+            margin-top:30px;
+            padding-left:100px;
+            padding-right:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent7 p{
+            font-size:16px;
+            padding-left:100px;
+            padding-right:100px;
+            margin-top:120px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+    </style>
+  </head>
+
+  <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    <p>Hello mayursaxena162@gmail.com!</p>
+
+<p>Someone has requested a link to change your password. You can do this through the link below.</p>
+
+<p><a href="http://localhost:3001/users/password/edit?reset_password_token=RtyDfNzFPnKLp5RxbxJ_">Change my password</a></p>
+
+<p>If you didn't request this, please ignore this email.</p>
+<p>Your password won't change until you access the link above and create a new one.</p>
+
+  </body>
+</html>
+
+Redirected to http://203bf0ae.ngrok.io/users/sign_in
+Completed 302 Found in 5390ms (ActiveRecord: 13.4ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkH\nSSIKZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsASSIMZmxhc2hlcwY7AFR7\nBkkiC25vdGljZQY7AEZJImBZb3Ugd2lsbCByZWNlaXZlIGFuIGVtYWlsIHdp\ndGggaW5zdHJ1Y3Rpb25zIG9uIGhvdyB0byByZXNldCB5b3VyIHBhc3N3b3Jk\nIGluIGEgZmV3IG1pbnV0ZXMuBjsAVA==\n"], ["updated_at", "2019-01-21 10:50:24.608525"], ["id", 5]]
+  [1m[35m (9.4ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:20:25 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (1.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (3.4ms)
+Completed 200 OK in 95ms (Views: 92.9ms | ActiveRecord: 0.4ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 16:20:56 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (2.4ms)
+  Rendered shared/_header.html.erb (1.4ms)
+Completed 200 OK in 140ms (Views: 137.1ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 16:20:56 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (3.0ms)
+  Rendered shared/_header.html.erb (1.8ms)
+Completed 200 OK in 153ms (Views: 149.5ms | ActiveRecord: 0.6ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/sign_up" for 122.160.45.93 at 2019-01-21 16:20:57 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/registrations/new.html.erb within layouts/application (1.8ms)
+  Rendered shared/_header.html.erb (1.4ms)
+Completed 200 OK in 125ms (Views: 122.4ms | ActiveRecord: 0.4ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/check_email?user%5Bemail%5D=mayur.saxena%40berylsystems.com" for 122.160.45.93 at 2019-01-21 16:21:19 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#check_email as JSON
+  Parameters: {"user"=>{"email"=>"mayur.saxena@berylsystems.com"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayur.saxena@berylsystems.com"], ["LIMIT", 1]]
+Completed 200 OK in 6ms (Views: 0.3ms | ActiveRecord: 1.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/sign_up/identity.user" for 122.160.45.93 at 2019-01-21 16:21:42 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#initialize_user as 
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"WEfShsUQYu9QdBENalv8w8ftErm7LlCML1tObPqjybGMVxTLokp1A3TFHUtXZT1qgINx2yjMUkepUBeo57D+0g==", "user"=>{"account_type"=>"seller", "email"=>"mayur.saxena@berylsystems.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Next"}
+  Rendering users/registrations/initialize_user.html.erb within layouts/application
+  Rendered users/registrations/_states.html.erb (0.6ms)
+  Rendered users/registrations/_seller_details.html.erb (9.5ms)
+  Rendered users/registrations/initialize_user.html.erb within layouts/application (12.2ms)
+  Rendered shared/_header.html.erb (1.4ms)
+Completed 200 OK in 270ms (Views: 120.5ms | ActiveRecord: 0.9ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/change_states?country=IN&_=1548067903844" for 122.160.45.93 at 2019-01-21 16:22:42 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#change_states as JS
+  Parameters: {"country"=>"IN", "_"=>"1548067903844"}
+  Rendering users/registrations/change_states.js.erb
+  Rendered users/registrations/_states.html.erb (0.9ms)
+  Rendered users/registrations/change_states.js.erb (5.0ms)
+Completed 200 OK in 39ms (Views: 18.7ms | ActiveRecord: 1.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/sign_up/identity.user" for 122.160.45.93 at 2019-01-21 16:23:28 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#initialize_user as 
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"WEfShsUQYu9QdBENalv8w8ftErm7LlCML1tObPqjybGMVxTLokp1A3TFHUtXZT1qgINx2yjMUkepUBeo57D+0g==", "user"=>{"account_type"=>"seller", "email"=>"mayur.saxena@berylsystems.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Next"}
+  Rendering users/registrations/initialize_user.html.erb within layouts/application
+  Rendered users/registrations/_states.html.erb (0.7ms)
+  Rendered users/registrations/_seller_details.html.erb (10.6ms)
+  Rendered users/registrations/initialize_user.html.erb within layouts/application (13.3ms)
+  Rendered shared/_header.html.erb (1.6ms)
+Completed 200 OK in 274ms (Views: 120.1ms | ActiveRecord: 0.8ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/change_states?country=IN&_=1548068009496" for 122.160.45.93 at 2019-01-21 16:24:10 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#change_states as JS
+  Parameters: {"country"=>"IN", "_"=>"1548068009496"}
+  Rendering users/registrations/change_states.js.erb
+  Rendered users/registrations/_states.html.erb (0.7ms)
+  Rendered users/registrations/change_states.js.erb (4.0ms)
+Completed 200 OK in 15ms (Views: 10.6ms | ActiveRecord: 0.3ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users" for 122.160.45.93 at 2019-01-21 16:24:38 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"KY1BPCgVNuvjtm94Uqx6W+m7rFPm8sArduVe/bgi2XP9nYdxT08hB8cHYz5vkrvyrtXPMXUQwuDw7gc5pTHuEA==", "user"=>{"email"=>"mayur.saxena@berylsystems.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "account_type"=>"seller", "first_name"=>"Mayur", "last_name"=>"Saxena", "address"=>"scf", "suit"=>"11", "city"=>"faridabad", "state"=>"HR", "postal_code"=>"201111", "country"=>"IN"}, "ssn"=>"8439050350", "date"=>"23", "month"=>"1", "year"=>"1995", "store_name"=>"BerylSystemsStoreLtd", "commit"=>"Submit"}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mayur.saxena@berylsystems.com"], ["LIMIT", 1]]
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "first_name", "last_name", "address", "suit", "city", "state", "postal_code", "country", "account_type", "is_admin", "confirmation_token", "confirmation_sent_at", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING "id"[0m  [["email", "mayur.saxena@berylsystems.com"], ["encrypted_password", "$2a$11$DBJSASU25Dghp3F5OEQ0u.TYIdMxEWHIF5S2cUzKxS3ZRmbvVZrD2"], ["first_name", "Mayur"], ["last_name", "Saxena"], ["address", "scf"], ["suit", "11"], ["city", "faridabad"], ["state", "HR"], ["postal_code", "201111"], ["country", "IN"], ["account_type", "seller"], ["is_admin", "t"], ["confirmation_token", "9uxNPqUn4xLfeZRZdFbx"], ["confirmation_sent_at", "2019-01-21 10:54:38.394326"], ["created_at", "2019-01-21 10:54:38.394227"], ["updated_at", "2019-01-21 10:54:38.394227"]]
+  [1m[35m (14.5ms)[0m  [1m[35mCOMMIT[0m
+  Rendering devise/mailer/confirmation_instructions.html.erb within layouts/mailer
+  Rendered devise/mailer/confirmation_instructions.html.erb within layouts/mailer (1.1ms)
+Devise::Mailer#confirmation_instructions: processed outbound mail in 5.3ms
+Sent mail to mayur.saxena@berylsystems.com (4878.4ms)
+Date: Mon, 21 Jan 2019 16:24:38 +0530
+From: beryl.testing123@gmail.com
+Reply-To: beryl.testing123@gmail.com
+To: mayur.saxena@berylsystems.com
+Message-ID: <5c45a4ee65f62_57303a314b83679@beryl-systems.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <title>Sellist</title>
+    <style>
+        .bodyContent{
+            background-color:#32c5ef;
+        }
+        .bodyContent img{
+            height:240px;
+            width:120px;
+            padding-top: 67px;
+            padding-bottom: 24px;
+        }
+        .bodyContent1{
+            background-color:#36a6d7;
+        }
+        .bodyContent1 p{
+            font-size:15px;
+            padding-left:75px;
+            font-family: 'Roboto', sans-serif;
+            margin-top:10px;
+            margin-bottom:10px;
+        }
+        #bodyTable2{
+            background-color:#f1f1f2;
+        }
+        .bodyContent2 h2{
+            font-size:24px;
+            padding-left:90px;
+            margin-bottom:15px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent3{
+            padding-bottom:0px;
+        }
+        .bodyContent3 p{
+            font-size:16px;
+            padding-left:90px;
+            margin-top:10px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent4{
+            padding-top:15px;
+            padding-bottom:15px;
+        }
+        .bodyContent4 h4{
+            font-size:16px;
+            padding-left:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent5 h4{
+            font-size:16px;
+            padding-left:100px;
+            margin-bottom:0px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent5 p{
+            font-size:16px;
+            margin-top:0px;
+            padding-left:100px;
+            padding-right:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent6 p{
+            font-size:16px;
+            margin-top:30px;
+            padding-left:100px;
+            padding-right:100px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+        .bodyContent7 p{
+            font-size:16px;
+            padding-left:100px;
+            padding-right:100px;
+            margin-top:120px;
+            font-family: 'Roboto', sans-serif;
+            color:#231f20;
+        }
+    </style>
+  </head>
+
+  <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    <center>
+  <table cellspacing="0" cellpadding="0" align="center" border="0" height="100%" width="720px" id="bodyTable">
+    <tr>
+      <td>
+        <table cellspacing="0" cellpadding="0" align="center" border="0" height="100%" width="720px" id="bodyTable1">
+          <tr>
+            <td class="bodyContent" align="center" valign="top">
+              <img src="/assets/logo-bbd086cec6208fa1fd0cb691a40520938b73625180e0a4ccec144d71b2c3a29a.svg" alt="Logo" />
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent1" align="left" valign="top">
+              <p id="date" style="color:#f1f2f2">JANUARY 21, 2019</p>
+            </td>
+          </tr>
+        </table>
+        <table cellspacing="0" cellpadding="0" align="center" border="0" height="100%" width="720px" id="bodyTable2">
+          <tr>
+            <td class="bodyContent2" align="left" valign="top">
+              <h2>Verify your email address</h2>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent3" align="left" valign="top">
+              <p>Hi, thank's for creating a Sellist account!</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent4" align="left" valign="top">
+              <h4>Account Activation Code: <span id="code">9uxNPqUn4xLfeZRZdFbx</span></h4>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent5" align="left" valign="top">
+              <h4>Next Steps,</h4>
+              <p>Upload items using the Item Import Template. Then upload photos for those items, verify all item details on the selling page and mark them for sale.</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent6" align="center" valign="top">
+              <p>If you need help at anytime please use the chat on the bottom right of every page in your Sellist account or email <a href="mailto:support@sellist.io" style="color:#27aae1">support@sellist.io</a></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bodyContent7" align="center" valign="top">
+              <p>You are receiving this email because you signed up for a Sellist Account.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</center>
+
+
+  </body>
+</html>
+
+Unpermitted parameters: :utf8, :authenticity_token, :user, :ssn, :date, :month, :year, :commit
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "seller_details" ("user_id", "birth_date", "store_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 3], ["birth_date", "1995-01-23"], ["store_name", "BerylSystemsStoreLtd"], ["created_at", "2019-01-21 10:54:43.300377"], ["updated_at", "2019-01-21 10:54:43.300377"]]
+  [1m[35m (15.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mSellerDetail Load (0.7ms)[0m  [1m[34mSELECT  "seller_details".* FROM "seller_details" WHERE "seller_details"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 1]]
+Redirected to http://203bf0ae.ngrok.io/sign_up/activation
+Completed 302 Found in 5049ms (ActiveRecord: 33.8ms)
+
+
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkI\nSSIKZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsASSIMZmxhc2hlcwY7AFR7\nBkkiC25vdGljZQY7AEZJImBZb3Ugd2lsbCByZWNlaXZlIGFuIGVtYWlsIHdp\ndGggaW5zdHJ1Y3Rpb25zIG9uIGhvdyB0byByZXNldCB5b3VyIHBhc3N3b3Jk\nIGluIGEgZmV3IG1pbnV0ZXMuBjsAVA==\n"], ["updated_at", "2019-01-21 10:54:43.329660"], ["id", 5]]
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/sign_up/activation" for 122.160.45.93 at 2019-01-21 16:24:43 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activation as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  Rendering users/registrations/activation.html.erb within layouts/application
+  Rendered users/registrations/activation.html.erb within layouts/application (0.8ms)
+  Rendered shared/_header.html.erb (1.2ms)
+Completed 200 OK in 103ms (Views: 100.7ms | ActiveRecord: 0.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  
+ActionController::RoutingError (No route matches [GET] "/assets/process-step-active.png"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.5) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.5) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/sign_up/activate_user" for 122.160.45.93 at 2019-01-21 16:28:09 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Users::RegistrationsController#activate_user as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"aSuhRA7uYAjMFGMOqZZvqOtTZgGEH4LVyP9ALkyXxru9O2cJabR35Oilb0iUqK4BrD0FYxf9gB5O9BnqUYTx2A==", "activation_key"=>"9uxNPqUn4xLfeZRZdFbx", "commit"=>"Activate"}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."confirmation_token" = $1 LIMIT $2[0m  [["confirmation_token", "9uxNPqUn4xLfeZRZdFbx"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[33mUPDATE "users" SET "confirmed_at" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["confirmed_at", "2019-01-21 10:58:09.681305"], ["updated_at", "2019-01-21 10:58:09.683088"], ["id", 3]]
+  [1m[35m (22.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[33mUPDATE "users" SET "confirmed_at" = $1, "active" = $2, "updated_at" = $3 WHERE "users"."id" = $4[0m  [["confirmed_at", "2019-01-21 10:58:09.711047"], ["active", "t"], ["updated_at", "2019-01-21 10:58:09.713220"], ["id", 3]]
+  [1m[35m (9.2ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://203bf0ae.ngrok.io/
+Completed 302 Found in 53ms (ActiveRecord: 35.3ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkI\nSSIKZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsASSIMZmxhc2hlcwY7AFR7\nBkkiC25vdGljZQY7AEZJIi1Zb3VyIGFjY291bnQgaXMgYWN0aXZhdGVkLiBQ\nbGVhc2UgbG9naW4hBjsAVA==\n"], ["updated_at", "2019-01-21 10:58:09.733557"], ["id", 5]]
+  [1m[35m (7.0ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for 122.160.45.93 at 2019-01-21 16:28:10 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/login_layout
+  Rendered shared/_header.html.erb (4.9ms)
+  Rendered devise/sessions/new.html.erb within layouts/login_layout (9.8ms)
+Completed 200 OK in 126ms (Views: 124.3ms | ActiveRecord: 0.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/users/sign_in" for 122.160.45.93 at 2019-01-21 16:28:33 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"+JrvwQ246GobmqLYehEHdesmithjfkcYEhcUUzzDK4osiimMauL/hj8rrp5HL8bcrEjpuvCcRdOUHE2XIdAc6Q==", "user"=>{"email"=>"mayur.saxena@berylsystems.com", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "mayur.saxena@berylsystems.com"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[33mUPDATE "users" SET "current_sign_in_at" = $1, "last_sign_in_at" = $2, "current_sign_in_ip" = $3, "last_sign_in_ip" = $4, "sign_in_count" = $5, "updated_at" = $6 WHERE "users"."id" = $7[0m  [["current_sign_in_at", "2019-01-21 10:58:33.318996"], ["last_sign_in_at", "2019-01-21 10:58:33.318996"], ["current_sign_in_ip", "122.160.45.93/32"], ["last_sign_in_ip", "122.160.45.93/32"], ["sign_in_count", 1], ["updated_at", "2019-01-21 10:58:33.320105"], ["id", 3]]
+  [1m[35m (21.0ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://203bf0ae.ngrok.io/
+Completed 302 Found in 174ms (ActiveRecord: 23.2ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM "sessions" WHERE "sessions"."id" = $1[0m  [["id", 5]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "sessions" ("session_id", "data", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["session_id", "c70929c3668875b7c1a57a3d6c8a9f47"], ["data", "BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjExQkRHVFdkYUYrd2tzUXhHUFQ3\nQnFVZHVZMktUNGdMTGhndFp4QjBUTjJNPQY7AEZJIgx1c2VyX2lkBjsARmkI\nSSIKZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsASSIMZmxhc2hlcwY7AFR7\nBkkiC25vdGljZQY7AEZJIi1Zb3VyIGFjY291bnQgaXMgYWN0aXZhdGVkLiBQ\nbGVhc2UgbG9naW4hBjsAVA==\n"], ["created_at", "2019-01-21 10:58:33.369248"], ["updated_at", "2019-01-21 10:58:33.369248"]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7CEkiDHVzZXJfaWQGOgZFRmkISSIKZmxhc2gGOwBUewdJIgxkaXNjYXJk\nBjsAVFsASSIMZmxhc2hlcwY7AFR7BkkiC25vdGljZQY7AEZJIhxTaWduZWQg\naW4gc3VjY2Vzc2Z1bGx5LgY7AFRJIhl3YXJkZW4udXNlci51c2VyLmtleQY7\nAFRbB1sGaQhJIiIkMmEkMTEkREJKU0FTVTI1RGdocDNGNU9FUTB1LgY7AFQ=\n"], ["updated_at", "2019-01-21 10:58:33.378476"], ["id", 6]]
+  [1m[35m (5.5ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for 122.160.45.93 at 2019-01-21 16:28:33 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+Processing by HomeController#user as HTML
+Redirected to http://203bf0ae.ngrok.io/home
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/home" for 122.160.45.93 at 2019-01-21 16:28:34 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::HomeController#dashboard as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  Rendering seller/home/dashboard.html.erb within layouts/user_home
+  Rendered seller/home/dashboard.html.erb within layouts/user_home (0.3ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.8ms)
+  Rendered seller/shared/_sidebar.html.erb (0.7ms)
+  Rendered shared/_footer.html.erb (0.3ms)
+Completed 200 OK in 276ms (Views: 256.3ms | ActiveRecord: 3.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7CEkiDHVzZXJfaWQGOgZFRmkISSIZd2FyZGVuLnVzZXIudXNlci5rZXkG\nOwBUWwdbBmkISSIiJDJhJDExJERCSlNBU1UyNURnaHAzRjVPRVEwdS4GOwBU\nSSIQX2NzcmZfdG9rZW4GOwBGSSIxblZ5WEJTc3FOdmpUUitoU29CdW5zN1p6\nSU5oSVpjSEpyOTZxSXhmUlBGVT0GOwBG\n"], ["updated_at", "2019-01-21 10:58:34.836313"], ["id", 6]]
+  [1m[35m (21.3ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/home" for 122.160.45.93 at 2019-01-21 16:28:51 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::HomeController#dashboard as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  Rendering seller/home/dashboard.html.erb within layouts/user_home
+  Rendered seller/home/dashboard.html.erb within layouts/user_home (0.8ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.7ms)
+  Rendered seller/shared/_sidebar.html.erb (0.7ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 197ms (Views: 186.8ms | ActiveRecord: 1.8ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/marketplace" for 122.160.45.93 at 2019-01-21 16:28:54 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::MarketplaceController#index as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (15.5ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 29ms (ActiveRecord: 1.8ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/marketplace_controller.rb:9:in `index'
+Started GET "/store" for 122.160.45.93 at 2019-01-21 16:29:11 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#index as HTML
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mItem Load (1.4ms)[0m  [1m[34mSELECT "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3)[0m
+  Rendering seller/items/index.html.erb within layouts/user_home
+  [1m[36mItem Load (0.5ms)[0m  [1m[34mSELECT  "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3) AND (discontinued = 'f') LIMIT $1 OFFSET $2[0m  [["LIMIT", 10], ["OFFSET", 0]]
+  Rendered seller/items/_items.html.erb (2.1ms)
+  Rendered seller/items/index.html.erb within layouts/user_home (4.1ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.6ms)
+  Rendered seller/shared/_sidebar.html.erb (0.5ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 193ms (Views: 157.9ms | ActiveRecord: 7.5ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7DEkiDHVzZXJfaWQGOgZFRmkISSIZd2FyZGVuLnVzZXIudXNlci5rZXkG\nOwBUWwdbBmkISSIiJDJhJDExJERCSlNBU1UyNURnaHAzRjVPRVEwdS4GOwBU\nSSIQX2NzcmZfdG9rZW4GOwBGSSIxblZ5WEJTc3FOdmpUUitoU29CdW5zN1p6\nSU5oSVpjSEpyOTZxSXhmUlBGVT0GOwBGSSIMY2F0Z19pZAY7AEZJIgAGOwBU\nSSIQc3ViX2NhdGdfaWQGOwBGSSIABjsAVEkiEXByb2RfY2F0Z19pZAY7AEZJ\nIgAGOwBUSSIRZGlzY29udGludWVkBjsARkY=\n"], ["updated_at", "2019-01-21 10:59:12.024770"], ["id", 6]]
+  [1m[35m (8.8ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/marketplace" for 122.160.45.93 at 2019-01-21 16:31:41 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::MarketplaceController#index as HTML
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (5.2ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 15ms (ActiveRecord: 1.7ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/marketplace_controller.rb:9:in `index'
+Started GET "/update-list?clear=true&discontinued=false" for 122.160.45.93 at 2019-01-21 16:42:38 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"clear"=>"true", "discontinued"=>"false"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (1.2ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 4ms (ActiveRecord: 0.6ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started GET "/update-list?clear=true&discontinued=false" for 122.160.45.93 at 2019-01-21 16:42:38 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"clear"=>"true", "discontinued"=>"false"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (3.1ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 12ms (ActiveRecord: 1.7ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started GET "/update-list?clear=true&discontinued=true" for 122.160.45.93 at 2019-01-21 16:43:58 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"clear"=>"true", "discontinued"=>"true"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (1.1ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:true"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 4ms (ActiveRecord: 0.6ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Atrue&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started GET "/update-list?clear=true&discontinued=false" for 122.160.45.93 at 2019-01-21 16:43:59 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"clear"=>"true", "discontinued"=>"false"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (3.0ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 12ms (ActiveRecord: 1.8ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started POST "/update-list" for 122.160.45.93 at 2019-01-21 16:44:03 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"utf8"=>"✓", "discontinued"=>"false", "search_term"=>"jfg"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (1.0ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, q: [1m[1m"jfg"[0m, fl: [1m[1m"* score"[0m, qf: [1m[1m"name_text title_text item_number_text style_text"[0m, defType: [1m[1m"edismax"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m} ]
+Completed 401 Unauthorized in 4ms (ActiveRecord: 0.7ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&q=jfg&fl=*+score&qf=name_text+title_text+item_number_text+style_text&defType=edismax&start=0&rows=40", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started GET "/profile" for 122.160.45.93 at 2019-01-21 16:47:38 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::SettingsController#index as HTML
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  Rendering seller/settings/index.html.erb within layouts/user_home
+  Rendered shared/_user_states.html.erb (2.3ms)
+  [1m[36mSellerDetail Load (0.4ms)[0m  [1m[34mSELECT  "seller_details".* FROM "seller_details" WHERE "seller_details"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 1]]
+  Rendered seller/settings/index.html.erb within layouts/user_home (22.8ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.8ms)
+  Rendered seller/shared/_sidebar.html.erb (0.5ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 187ms (Views: 177.4ms | ActiveRecord: 2.2ms | Solr: 1.1ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/update-settings" for 122.160.45.93 at 2019-01-21 16:47:53 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::SettingsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"QfxVbMvLdcMq0ypm4LcX7sAuJcxAYMDjIquIBWuBm0TcoMJp4OFDO/mUwjRArLBddl0FFAgFASqNdSImfFCnEQ==", "first_name"=>"Mayur", "last_name"=>"Saxena", "email"=>"mayur.saxena@berylsystems.com", "phone"=>"8439050350", "address"=>"scf", "suit"=>"11", "city"=>"faridabad", "state"=>"HR", "postal_code"=>"201111", "country"=>"IN", "store_name"=>"BerylSystemsStoreLtd", "ssn_no"=>"", "date"=>"23", "month"=>"1", "year"=>"1995", "commit"=>"Save"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+Unpermitted parameters: :utf8, :authenticity_token, :store_name, :ssn_no, :date, :month, :year, :commit
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[33mUPDATE "users" SET "phone" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["phone", "8439050350"], ["updated_at", "2019-01-21 11:17:53.345187"], ["id", 3]]
+  [1m[35m (21.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mSellerDetail Load (0.6ms)[0m  [1m[34mSELECT  "seller_details".* FROM "seller_details" WHERE "seller_details"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 1]]
+Unpermitted parameters: :utf8, :authenticity_token, :first_name, :last_name, :email, :phone, :address, :suit, :city, :state, :postal_code, :country, :date, :month, :year, :commit
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "seller_details" SET "ssn_no" = $1, "updated_at" = $2 WHERE "seller_details"."id" = $3[0m  [["ssn_no", ""], ["updated_at", "2019-01-21 11:17:53.378517"], ["id", 3]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://203bf0ae.ngrok.io/profile
+Completed 302 Found in 57ms (ActiveRecord: 32.6ms)
+
+
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7DUkiDHVzZXJfaWQGOgZFRmkISSIZd2FyZGVuLnVzZXIudXNlci5rZXkG\nOwBUWwdbBmkISSIiJDJhJDExJERCSlNBU1UyNURnaHAzRjVPRVEwdS4GOwBU\nSSIQX2NzcmZfdG9rZW4GOwBGSSIxblZ5WEJTc3FOdmpUUitoU29CdW5zN1p6\nSU5oSVpjSEpyOTZxSXhmUlBGVT0GOwBGSSIMY2F0Z19pZAY7AEZJIgAGOwBU\nSSIQc3ViX2NhdGdfaWQGOwBGSSIABjsAVEkiEXByb2RfY2F0Z19pZAY7AEZJ\nIgAGOwBUSSIRZGlzY29udGludWVkBjsARkZJIgpmbGFzaAY7AFR7B0kiDGRp\nc2NhcmQGOwBUWwBJIgxmbGFzaGVzBjsAVHsGSSIMc3VjY2VzcwY7AEZJIiJQ\ncm9maWxlIHVwZGF0ZWQgc3VjY2Vzc2Z1bGx5IQY7AFQ=\n"], ["updated_at", "2019-01-21 11:17:53.394958"], ["id", 6]]
+  [1m[35m (7.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/profile" for 122.160.45.93 at 2019-01-21 16:47:53 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::SettingsController#index as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  Rendering seller/settings/index.html.erb within layouts/user_home
+  Rendered shared/_user_states.html.erb (2.5ms)
+  [1m[36mSellerDetail Load (0.5ms)[0m  [1m[34mSELECT  "seller_details".* FROM "seller_details" WHERE "seller_details"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 1]]
+  Rendered seller/settings/index.html.erb within layouts/user_home (26.9ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.7ms)
+  Rendered seller/shared/_sidebar.html.erb (0.5ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 207ms (Views: 197.6ms | ActiveRecord: 2.3ms | Solr: 5.2ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7DEkiDHVzZXJfaWQGOgZFRmkISSIZd2FyZGVuLnVzZXIudXNlci5rZXkG\nOwBUWwdbBmkISSIiJDJhJDExJERCSlNBU1UyNURnaHAzRjVPRVEwdS4GOwBU\nSSIQX2NzcmZfdG9rZW4GOwBGSSIxblZ5WEJTc3FOdmpUUitoU29CdW5zN1p6\nSU5oSVpjSEpyOTZxSXhmUlBGVT0GOwBGSSIMY2F0Z19pZAY7AEZJIgAGOwBU\nSSIQc3ViX2NhdGdfaWQGOwBGSSIABjsAVEkiEXByb2RfY2F0Z19pZAY7AEZJ\nIgAGOwBUSSIRZGlzY29udGludWVkBjsARkY=\n"], ["updated_at", "2019-01-21 11:17:54.192034"], ["id", 6]]
+  [1m[35m (3.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mItem Load (0.3ms)[0m  [1m[34mSELECT  "items".* FROM "items" LIMIT $1[0m  [["LIMIT", 11]]
+Started GET "/store" for 122.160.45.93 at 2019-01-21 16:49:32 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#index as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mItem Load (2.3ms)[0m  [1m[34mSELECT "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3)[0m
+  Rendering seller/items/index.html.erb within layouts/user_home
+  [1m[36mItem Load (1.6ms)[0m  [1m[34mSELECT  "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3) AND (discontinued = 'f') LIMIT $1 OFFSET $2[0m  [["LIMIT", 10], ["OFFSET", 0]]
+  Rendered seller/items/_items.html.erb (6.3ms)
+  Rendered seller/items/index.html.erb within layouts/user_home (12.1ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.9ms)
+  Rendered seller/shared/_sidebar.html.erb (0.5ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 197ms (Views: 180.4ms | ActiveRecord: 5.7ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/store/products" for 122.160.45.93 at 2019-01-21 16:52:14 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  
+ActionController::RoutingError (No route matches [GET] "/store/products"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/store" for 122.160.45.93 at 2019-01-21 16:52:19 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#index as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mItem Load (1.1ms)[0m  [1m[34mSELECT "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3)[0m
+  Rendering seller/items/index.html.erb within layouts/user_home
+  [1m[36mItem Load (1.0ms)[0m  [1m[34mSELECT  "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3) AND (discontinued = 'f') LIMIT $1 OFFSET $2[0m  [["LIMIT", 10], ["OFFSET", 0]]
+  Rendered seller/items/_items.html.erb (4.9ms)
+  Rendered seller/items/index.html.erb within layouts/user_home (14.3ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.6ms)
+  Rendered seller/shared/_sidebar.html.erb (0.5ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 194ms (Views: 180.2ms | ActiveRecord: 4.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/profile" for 122.160.45.93 at 2019-01-21 16:52:29 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::SettingsController#index as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  Rendering seller/settings/index.html.erb within layouts/user_home
+  Rendered shared/_user_states.html.erb (2.4ms)
+  [1m[36mSellerDetail Load (0.4ms)[0m  [1m[34mSELECT  "seller_details".* FROM "seller_details" WHERE "seller_details"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 1]]
+  Rendered seller/settings/index.html.erb within layouts/user_home (26.3ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.5ms)
+  Rendered seller/shared/_sidebar.html.erb (0.5ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 192ms (Views: 182.3ms | ActiveRecord: 2.3ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/update-settings" for 122.160.45.93 at 2019-01-21 16:52:43 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::SettingsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"vmTIkrHbPYw4SUYaVm4oWLD2anIHAE8ovvkTNU3U2vsjOF+XmvELdOsOrkj2dY/rBoVKqk9ljuERJ7kWWgXmrg==", "first_name"=>"Mayur", "last_name"=>"Saxena", "email"=>"mayur.saxena@berylsystems.com", "phone"=>"8439050350", "address"=>"scf", "suit"=>"11", "city"=>"faridabad", "state"=>"HR", "postal_code"=>"201111", "country"=>"IN", "store_name"=>"BerylSystemsStoreLtd", "ssn_no"=>"", "date"=>"23", "month"=>"1", "year"=>"1995", "commit"=>"Save"}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+Unpermitted parameters: :utf8, :authenticity_token, :store_name, :ssn_no, :date, :month, :year, :commit
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mSellerDetail Load (0.6ms)[0m  [1m[34mSELECT  "seller_details".* FROM "seller_details" WHERE "seller_details"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 1]]
+Unpermitted parameters: :utf8, :authenticity_token, :first_name, :last_name, :email, :phone, :address, :suit, :city, :state, :postal_code, :country, :date, :month, :year, :commit
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://203bf0ae.ngrok.io/profile
+Completed 302 Found in 23ms (ActiveRecord: 4.0ms)
+
+
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7DUkiDHVzZXJfaWQGOgZFRmkISSIZd2FyZGVuLnVzZXIudXNlci5rZXkG\nOwBUWwdbBmkISSIiJDJhJDExJERCSlNBU1UyNURnaHAzRjVPRVEwdS4GOwBU\nSSIQX2NzcmZfdG9rZW4GOwBGSSIxblZ5WEJTc3FOdmpUUitoU29CdW5zN1p6\nSU5oSVpjSEpyOTZxSXhmUlBGVT0GOwBGSSIMY2F0Z19pZAY7AEZJIgAGOwBU\nSSIQc3ViX2NhdGdfaWQGOwBGSSIABjsAVEkiEXByb2RfY2F0Z19pZAY7AEZJ\nIgAGOwBUSSIRZGlzY29udGludWVkBjsARkZJIgpmbGFzaAY7AFR7B0kiDGRp\nc2NhcmQGOwBUWwBJIgxmbGFzaGVzBjsAVHsGSSIMc3VjY2VzcwY7AEZJIiJQ\ncm9maWxlIHVwZGF0ZWQgc3VjY2Vzc2Z1bGx5IQY7AFQ=\n"], ["updated_at", "2019-01-21 11:22:43.236690"], ["id", 6]]
+  [1m[35m (22.3ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/profile" for 122.160.45.93 at 2019-01-21 16:52:43 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::SettingsController#index as HTML
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  Rendering seller/settings/index.html.erb within layouts/user_home
+  Rendered shared/_user_states.html.erb (2.2ms)
+  [1m[36mSellerDetail Load (0.4ms)[0m  [1m[34mSELECT  "seller_details".* FROM "seller_details" WHERE "seller_details"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 1]]
+  Rendered seller/settings/index.html.erb within layouts/user_home (21.8ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.6ms)
+  Rendered seller/shared/_sidebar.html.erb (0.6ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 192ms (Views: 183.0ms | ActiveRecord: 2.2ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "sessions" SET "data" = $1, "updated_at" = $2 WHERE "sessions"."id" = $3[0m  [["data", "BAh7DEkiDHVzZXJfaWQGOgZFRmkISSIZd2FyZGVuLnVzZXIudXNlci5rZXkG\nOwBUWwdbBmkISSIiJDJhJDExJERCSlNBU1UyNURnaHAzRjVPRVEwdS4GOwBU\nSSIQX2NzcmZfdG9rZW4GOwBGSSIxblZ5WEJTc3FOdmpUUitoU29CdW5zN1p6\nSU5oSVpjSEpyOTZxSXhmUlBGVT0GOwBGSSIMY2F0Z19pZAY7AEZJIgAGOwBU\nSSIQc3ViX2NhdGdfaWQGOwBGSSIABjsAVEkiEXByb2RfY2F0Z19pZAY7AEZJ\nIgAGOwBUSSIRZGlzY29udGludWVkBjsARkY=\n"], ["updated_at", "2019-01-21 11:22:44.065881"], ["id", 6]]
+  [1m[35m (3.4ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/home" for 122.160.45.93 at 2019-01-21 16:52:49 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::HomeController#dashboard as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  Rendering seller/home/dashboard.html.erb within layouts/user_home
+  Rendered seller/home/dashboard.html.erb within layouts/user_home (0.7ms)
+  Rendered shared/_flash_messages.html.erb (0.6ms)
+  Rendered shared/_user_header.html.erb (3.3ms)
+  Rendered seller/shared/_sidebar.html.erb (0.5ms)
+  Rendered shared/_footer.html.erb (0.3ms)
+Completed 200 OK in 189ms (Views: 177.8ms | ActiveRecord: 1.9ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/store" for 122.160.45.93 at 2019-01-21 16:55:33 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#index as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mItem Load (2.3ms)[0m  [1m[34mSELECT "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3)[0m
+  Rendering seller/items/index.html.erb within layouts/user_home
+  [1m[36mItem Load (1.1ms)[0m  [1m[34mSELECT  "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3) AND (discontinued = 'f') LIMIT $1 OFFSET $2[0m  [["LIMIT", 10], ["OFFSET", 0]]
+  Rendered seller/items/_items.html.erb (5.0ms)
+  Rendered seller/items/index.html.erb within layouts/user_home (10.3ms)
+  Rendered shared/_flash_messages.html.erb (7.3ms)
+  Rendered shared/_user_header.html.erb (9.9ms)
+  Rendered seller/shared/_sidebar.html.erb (0.5ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 204ms (Views: 188.4ms | ActiveRecord: 5.0ms | Solr: 0.0ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/update-list?clear=true&discontinued=true" for 122.160.45.93 at 2019-01-21 17:04:13 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"clear"=>"true", "discontinued"=>"true"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (3.6ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:true"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 13ms (ActiveRecord: 1.7ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Atrue&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started GET "/update-list?clear=true&discontinued=false" for 122.160.45.93 at 2019-01-21 17:04:14 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"clear"=>"true", "discontinued"=>"false"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (3.2ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 13ms (ActiveRecord: 1.7ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started POST "/update-list" for 122.160.45.93 at 2019-01-21 17:04:26 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"utf8"=>"✓", "discontinued"=>"false", "search_term"=>"products"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (1.1ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, q: [1m[1m"products"[0m, fl: [1m[1m"* score"[0m, qf: [1m[1m"name_text title_text item_number_text style_text"[0m, defType: [1m[1m"edismax"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m} ]
+Completed 401 Unauthorized in 4ms (ActiveRecord: 0.7ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&q=products&fl=*+score&qf=name_text+title_text+item_number_text+style_text&defType=edismax&start=0&rows=40", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started POST "/update-list" for 122.160.45.93 at 2019-01-21 17:04:28 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"utf8"=>"✓", "discontinued"=>"false", "search_term"=>"products"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (3.0ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, q: [1m[1m"products"[0m, fl: [1m[1m"* score"[0m, qf: [1m[1m"name_text title_text item_number_text style_text"[0m, defType: [1m[1m"edismax"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m} ]
+Completed 401 Unauthorized in 12ms (ActiveRecord: 1.7ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&q=products&fl=*+score&qf=name_text+title_text+item_number_text+style_text&defType=edismax&start=0&rows=40", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started POST "/update-list" for 122.160.45.93 at 2019-01-21 17:04:30 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"utf8"=>"✓", "discontinued"=>"false", "search_term"=>"products"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (1.0ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, q: [1m[1m"products"[0m, fl: [1m[1m"* score"[0m, qf: [1m[1m"name_text title_text item_number_text style_text"[0m, defType: [1m[1m"edismax"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m} ]
+Completed 401 Unauthorized in 4ms (ActiveRecord: 0.8ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&q=products&fl=*+score&qf=name_text+title_text+item_number_text+style_text&defType=edismax&start=0&rows=40", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started GET "/marketplace" for 122.160.45.93 at 2019-01-21 17:16:44 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::MarketplaceController#index as HTML
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (3.0ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 12ms (ActiveRecord: 1.7ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/marketplace_controller.rb:9:in `index'
+Started GET "/store" for 122.160.45.93 at 2019-01-21 17:17:00 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#index as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mItem Load (1.2ms)[0m  [1m[34mSELECT "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3)[0m
+  Rendering seller/items/index.html.erb within layouts/user_home
+  [1m[36mItem Load (1.4ms)[0m  [1m[34mSELECT  "items".* FROM "items" INNER JOIN "seller_items" ON "seller_items"."item_id" = "items"."id" WHERE (seller_id = 3) AND (discontinued = 'f') LIMIT $1 OFFSET $2[0m  [["LIMIT", 10], ["OFFSET", 0]]
+  Rendered seller/items/_items.html.erb (5.9ms)
+  Rendered seller/items/index.html.erb within layouts/user_home (11.4ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+  Rendered shared/_user_header.html.erb (2.9ms)
+  Rendered seller/shared/_sidebar.html.erb (0.5ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 206ms (Views: 190.8ms | ActiveRecord: 4.4ms | Solr: 20.7ms)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/update-list" for 122.160.45.93 at 2019-01-21 17:17:13 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"utf8"=>"✓", "discontinued"=>"false", "search_term"=>""}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (3.2ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 12ms (ActiveRecord: 1.8ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'
+Started POST "/update-list" for 122.160.45.93 at 2019-01-21 17:17:13 +0530
+Cannot render console from 122.160.45.93! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Seller::ItemsController#update_list as JS
+  Parameters: {"utf8"=>"✓", "discontinued"=>"false", "search_term"=>""}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[32mSOLR Request (3.2ms)[0m  [ path=[1m[1mselect[0m parameters={fq: [1m[1m["type:Item", "enabled_for_sale_b:true", "seller_id_im:3", "discontinued_bm:false"][0m, sort: [1m[1m"created_at_d desc"[0m, start: [1m[1m0[0m, rows: [1m[1m40[0m, q: [1m[1m"*:*"[0m} ]
+Completed 401 Unauthorized in 13ms (ActiveRecord: 1.7ms)
+
+
+  
+RSolr::Error::ConnectionRefused (Connection refused - {:data=>"fq=type%3AItem&fq=enabled_for_sale_b%3Atrue&fq=seller_id_im%3A3&fq=discontinued_bm%3Afalse&sort=created_at_d+desc&start=0&rows=40&q=*%3A*", :method=>:post, :params=>{:wt=>:json}, :query=>"wt=json", :headers=>{"Content-Type"=>"application/x-www-form-urlencoded; charset=UTF-8"}, :path=>"select", :uri=>#<URI::HTTP http://localhost:8982/solr/default/select?wt=json>}):
+  
+(eval):2:in `post'
+app/models/item.rb:43:in `filter'
+app/controllers/seller/items_controller.rb:55:in `update_list'

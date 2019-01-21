@@ -1,0 +1,1 @@
+<%= select_tag :product_category_id, options_for_select(@product_categories.map{|c| [c.name, c.id]}), class: 'input-group filtering-select col-sm-2 form-control', id: "product_category_id_#{index}", name: 'product_category_id[]', prompt: "Select Product Category" %>

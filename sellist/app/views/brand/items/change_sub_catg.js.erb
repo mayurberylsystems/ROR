@@ -1,0 +1,1 @@
+$('#prod_catg_<%= params[:index] %>').html("<%= escape_javascript(render :partial => 'product_categories', locals: {index: params[:index]}) %>");

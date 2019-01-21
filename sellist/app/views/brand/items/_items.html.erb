@@ -1,0 +1,45 @@
+<div class="box-body">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Item</th>
+        <th>Name</th>
+        <th>Title</th>
+        <th>Item Number</th>
+        <th>Upc</th>
+        <th>Price</th>
+        <th>Commission</th>
+        <!--<th></th>-->
+      </tr>
+    </thead>
+    <tbody>
+      <% @items.each do |item| %>
+        <% image = item.images[0] %>
+        <tr>
+          <td><%= link_to "<i class='fa fa-trash' aria-hidden='true'></i>".html_safe , brand_item_path(id: item.id), method: 'delete', class: 'delete-item' , data: {confirm: "Are you sure?"} %></td>
+          <td class="item-img">
+            <% unless image.blank? %>
+              <%= link_to image_tag(image.file.url), edit_brand_item_path(id: item.id), {:remote => true, 'data-toggle' => "modal", 'data-target' => '#modal-window'} %>
+            <% else %>
+              <%= link_to image_tag('No_Image_Available.jpg'), edit_brand_item_path(id: item.id), {:remote => true, 'data-toggle' => "modal", 'data-target' => '#modal-window'} %>
+            <% end %>
+          </td>
+          <td class="item-name"><%= item.name %></td>
+          <td><%= item.title %></td>
+          <td><%= item.item_number %></td>
+          <td><%= item.upc %></td>
+          <td><%= number_to_currency(item.price) %></td>
+          <td><%= number_to_currency(item.commission_in_currency) %></td>
+          <!--<td>
+            <%#= link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, edit_brand_item_path(id: item.id), {:remote => true, 'data-toggle' => "modal", 'data-target' => '#modal-window'} %>
+          </td>-->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<!-- /.box-body -->
+<div class="text-center items-paging">
+  <%= will_paginate @items %>
+</div>
