@@ -1,0 +1,2 @@
+class QuickbooksController < ApplicationController
+end
