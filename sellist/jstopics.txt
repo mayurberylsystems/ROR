@@ -1,0 +1,6 @@
+getElementById()
+button 
+onclick 
+offclick 
+alert  
+function 
