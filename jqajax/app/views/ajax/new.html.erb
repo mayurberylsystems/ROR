@@ -1,0 +1,50 @@
+
+<%=form_for :post, id: "formid" , url: ajax_index_path do |f| %>
+	<p>
+		<%= f.label :content %>
+		<%= f.text_area :content %>
+	</p>
+	<h3>Select Social media</h3>
+    <p>
+      <%= f.check_box :facebook %>
+      <%= f.label :facebook %>
+    </p>
+    <p>
+      <%= f.check_box :twitter %>
+      <%= f.label :twitter %>
+    </p>
+    <p>
+      <%= f.check_box :instagram %>
+      <%= f.label :instagram %>
+    </p>
+    <p>
+      <%= f.check_box :gmail %>
+      <%= f.label :gmail %>
+    </p>
+	<p>
+		<%= f.submit "submit"%>
+	</p>
+<% end %>
+
+<script>
+	var social = [];
+	$("input:checkbox").each(function(){
+	  
+	  checked = $(this).is(":checked");
+	  if(checked == true){
+	  	val = $(this).next().html();
+	  	social.push(val);
+	  }
+	  	
+	});
+
+	$.ajax({
+		url: "/save-accounts",
+  	datatype: 'script',
+  	method: 'Post',
+  	data : {
+  		active_media : social,
+  	}
+	})
+
+</script>

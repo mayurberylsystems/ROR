@@ -1,0 +1,11 @@
+$('#form-id').submit(function(){
+  $.ajax({
+    type: this.method,
+    url: "Socialmedia",
+    data: $(this).serialize(),
+    success: function(){
+      ... // do something in case everything went find
+    }
+  });
+  return false;
+});`

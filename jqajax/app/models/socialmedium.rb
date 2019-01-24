@@ -1,0 +1,2 @@
+class Socialmedium < ApplicationRecord
+end
